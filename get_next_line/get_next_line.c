@@ -1,89 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/20 11:53:11 by mmorel            #+#    #+#             */
+/*   Updated: 2017/04/20 12:16:03 by mmorel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-#include <stdio.h>
 
-// char  *ft_charjoin(char const *s1, char c)
-// {
-//   char    *new_str;
-//   size_t  len;
-//   size_t  i;
-//
-//   i = -1;
-//   if (!s1 || !c)
-//     return (NULL);
-//   len = ft_strlen(s1);
-//   if (!(new_str = ft_strnew(len + 1)))
-//     return (NULL);
-//   ft_memcpy(new_str, s1, len);
-//   *(new_str + len) = c;
-//   free((void*)s1);
-//   return (new_str);
-// }
-
-char  *consolidate(char *content, int start)
+int		load_single_line(char **line, char *src, char c)
 {
-  size_t  len;
-  char    *tmp;
+	int		breakpoint;
 
-  len = ft_strlen(content);
-  tmp = (char *)ft_memalloc(len - start);
-  while (content)
-  {
-    *tmp = content[start];
-    tmp++;
-    start++;
-  }
-  free(content);
-  return (tmp);
+	breakpoint = -1;
+	while (src[++breakpoint])
+	{
+		if (src[breakpoint] == c)
+			break ;
+	}
+	if (!(*line = ft_strnew(breakpoint)))
+		return (0);
+	ft_memcpy(*line, src, breakpoint);
+	return (breakpoint);
 }
 
-int   load_single_line(char **dst, char *src, char c)
+char	*load_database_file(char *file, char *buffer, int selector)
 {
-  int   i;
-  int   j;
+	char	*tmp;
+	int		breakpoint;
 
-  j = 0;
-  i = -1;
-  while (src[++i])
-  {
-    if (src[i] == c)
-      break ;
-  }
-  if (!(*dst = ft_strnew(i)))
-    return (0);
-  ft_memcpy(*dst, src, i);
-  return (i);
+	if (selector == 1)
+	{
+		if (!file)
+			if (!(file = (char*)ft_memalloc((BUF_SIZE + 1))))
+				return (NULL);
+		tmp = ft_strjoin(file, buffer);
+		free(file);
+		file = tmp;
+	}
+	else
+	{
+		breakpoint = -1;
+		while (file[++breakpoint])
+		{
+			if (file[breakpoint] == '\n')
+				break ;
+		}
+		tmp = ft_strsub(file, breakpoint + 1, ft_strlen(file) - breakpoint);
+		free(file);
+		file = tmp;
+	}
+	return (file);
 }
 
-int   get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-  int           ret;
-  char          buf[BUF_SIZE + 1];
-  static char   **database;
-  int           i;
+	int					bytes_read;
+	char				buf[BUF_SIZE + 1];
+	static char			**database;
 
-  if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
-    return (-1);
-  if (!database)
-    MALVER((database = (char**)ft_memalloc(sizeof(char *) * (MAX_FD + 1))));
-  while ((ret = read(fd, buf, BUF_SIZE)))
-  {
-    buf[ret] = '\0';
-    if (!database[fd])
-      MALVER((database[fd] = (char*)ft_memalloc((BUF_SIZE + 1))));
-    database[fd] = ft_strjoin(database[fd], buf);
-    if (ft_strchr(buf, '\n'))
-      break ;
-  }
-  if (ret < BUF_SIZE && !ft_strlen(database[fd]))
-    return (0);
-  i = load_single_line(line, database[fd], '\n');
-  if (i < ft_strlen(database[fd]))
-			{
-        printf("[FORMER]:\n%s\n", database[fd][i+1]);
-        consolidate(database[fd], i);
-        printf("[consolidate]:\n%s\n", database[fd]);
-      }
-  else
-    ft_strclr(database[fd]);
-  return (1);
+	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
+		return (-1);
+	if (!database)
+		MALVER((database = (char**)ft_memalloc(sizeof(char *) * (MAX_FD + 1))));
+	while ((bytes_read = read(fd, buf, BUF_SIZE)))
+	{
+		buf[bytes_read] = '\0';
+		database[fd] = load_database_file(database[fd], buf, 1);
+		if (ft_strchr(buf, '\n'))
+			break ;
+	}
+	if (bytes_read < BUF_SIZE && !ft_strlen(database[fd]))
+		return (0);
+	if (load_single_line(line, database[fd], '\n') < ft_strlen(database[fd]))
+		database[fd] = load_database_file(database[fd], buf, 0);
+	else
+		ft_strclr(database[fd]);
+	return (1);
 }

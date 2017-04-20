@@ -34,6 +34,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		ini2++;
 	}
 	ptr[ini] = '\0';
-	// free((void*)s1);
 	return (ptr);
 }
