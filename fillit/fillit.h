@@ -17,18 +17,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-// typedef	struct		s_tet
-// {
-// 	int				x;
-// 	int				y;
-// 	void			*content;
-// 	size_t			content_size;
-// 	struct s_list	*next;
-// }					t_tet;
-
-// t_tet	*ft_input(int fd);
-// size_t	ft_mode(char *str, char c);
-
 typedef	struct			s_map
 {
 	int					min_x;
@@ -38,6 +26,11 @@ typedef	struct			s_map
 	char				**map;
 }						t_map;
 
+int		broad_check(char *buf);
+int		fine_check(t_tet *pieces);
+int		connections_check(char *s, int i);
+void	coordinate_extraction(char *piece, int x[], int y[], int *connections);
+void	ft_error(void);
 void	reset(t_tet *piece);
 void	hash(char *content);
 int		placement(t_map *map, t_tet *piece);

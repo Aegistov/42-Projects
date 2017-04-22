@@ -13,85 +13,29 @@
 #include "fillit.h"
 #include "libft.h"
 
-//*************************** 6 FUNCTIONS CURRENTLY REDUCE TO 5 AT LEAST********
-
-int		ft_connections(char *s, int i)
+void	coordinate_extraction(char *piece, int x[], int y[], int *connections)
 {
-	int		c;
-
-	c = 0;
-	if (s[i] == '#')
-	{
-		if (s[i + 1] == '#')
-			c++;
-		if (i >= 1)
-		{
-			if (s[i - 1] == '#')
-			c++;
-		}
-		if (s[i + 5] == '#')
-			c++;
-		if (i >= 5)
-		{
-			if (s[i - 5] == '#')
-			c++;
-		}
-	}
-	return (c);
-}
-
-void	ft_coordinate(char *s, int x[], int y[], int *con)
-{
-	int		i;
-	int		n;
+	int		counter;
+	int		hash;
 	int		num;
 
-	n = 0;
-	i = 0;
+	hash = 0;
+	counter = 0;
 	num = 0;
-	while (i < 19)
+	while (counter < 19)
 	{
-		if (s[i] != '#')
-			i++;
-		if (s[i] == '#' && n != 4)
+		if (piece[counter] != '#')
+			counter++;
+		if (piece[counter] == '#' && hash != 4)
 		{
-			x[n] = i % 5;
-			y[n] = i / 5;
-			num = num + ft_connections(s, i);
-			n++;
+			x[hash] = counter % 5;
+			y[hash] = counter / 5;
+			num = num + connections_check(piece, counter);
+			hash++;
 		}
-			i++;
+			counter++;
 	}
-	*con = num;
-}
-
-int		broad_check(char *buf)
-{
-	int		hash;
-	int		dot;
-	int		i;
-	int		newline;
-
-	i = -1;
-	newline = 4;
-	if (buf)
-	{
-		hash = ft_mode(buf, '#');
-		dot = ft_mode(buf, '.');
-		while (++i < 4)
-		{
-			if (buf[newline] == '\n')
-				newline += 5;
-		}
-		if (hash == 4 && dot == 12 && newline == 24 &&
-			(buf[20] == '\n' || buf [20] == '\0'))
-			return (1);
-		else
-			return (0);
-	}
-	else
-		ft_error();
-	return (0);
+	*connections = num;
 }
 
 t_tet	*ft_pushback(t_tet *node, char *buf, size_t buf_size)
@@ -111,45 +55,23 @@ t_tet	*ft_pushback(t_tet *node, char *buf, size_t buf_size)
 		node = new;
 	return (node);
 }
-//Main input function
-int		fine_check(t_tet *pieces)
-{
-	int		con;
-
-	con = 0;
-	if (!pieces)
-		return (0);
-	while(pieces)
-	{
-		ft_coordinate(pieces->content, pieces->x, pieces->y, &con);
-		if (con != 6 && con != 8)
-			return (0);
-		if (pieces->next == NULL)
-		{
-			if (pieces->content[20] != '\0')
-				return (0);
-		}
-		pieces = pieces->next;
-	}
-	return (1);
-}
 
 t_tet	*ft_input(int fd)
 {
-	t_tet	*cur_block;
+	t_tet	*pieces;
 	char	buf[22];
-	size_t	i;
+	size_t	bytes_read;
 
-	cur_block = NULL;
-	while ((i = read(fd, buf, 21)))
+	pieces = NULL;
+	while ((bytes_read = read(fd, buf, 21)))
 	{
-		buf[i] = '\0';
+		buf[bytes_read] = '\0';
 		if (broad_check(buf))
-			cur_block = ft_pushback(cur_block, buf, i + 1);
+			pieces = ft_pushback(pieces, buf, bytes_read + 1);
 		else
 			return (0);
 	}
-	if (!(fine_check(cur_block)))
+	if (!(fine_check(pieces)))
 		return (0);
-	return (cur_block);
+	return (pieces);
 }

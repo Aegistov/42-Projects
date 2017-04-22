@@ -13,6 +13,7 @@ SRCS = 	fillit_algorithm.c \
 		fillit_util.c \
 		ft_mode.c \
 		ft_sqt.c \
+		fillit_checks.c \
 
 .PHONY: all NAME clean fclean re
 
@@ -28,4 +29,5 @@ clean:
 fclean: clean
 	/bin/rm -f $(NAME)
 	/bin/rm -f ./libft/libft.a
+
 re: fclean all
