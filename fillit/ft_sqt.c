@@ -19,13 +19,11 @@ int		ft_sqt(int num)
 
 	i = 1;
 	tmp = 0;
-	// printf("num:%d\n", num);
 	while (tmp < num)
 	{
 		tmp = i * i;
 		i++;
 	}
 	i--;
-	// printf("SQUARE ROOT:%d\n", i);
 	return (i);
 }

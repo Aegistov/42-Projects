@@ -33,7 +33,7 @@ void	coordinate_extraction(char *piece, int x[], int y[], int *connections)
 			num = num + connections_check(piece, counter);
 			hash++;
 		}
-			counter++;
+		counter++;
 	}
 	*connections = num;
 }

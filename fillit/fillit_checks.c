@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fillit_checks.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/22 00:36:24 by mmorel            #+#    #+#             */
+/*   Updated: 2017/04/22 00:36:26 by mmorel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int		connections_check(char *s, int i)
@@ -12,14 +24,14 @@ int		connections_check(char *s, int i)
 		if (i >= 1)
 		{
 			if (s[i - 1] == '#')
-			c++;
+				c++;
 		}
 		if (s[i + 5] == '#')
 			c++;
 		if (i >= 5)
 		{
 			if (s[i - 5] == '#')
-			c++;
+				c++;
 		}
 	}
 	return (c);
@@ -44,7 +56,7 @@ int		broad_check(char *buf)
 				newline += 5;
 		}
 		if (hash == 4 && dot == 12 && newline == 24 &&
-			(buf[20] == '\n' || buf [20] == '\0'))
+			(buf[20] == '\n' || buf[20] == '\0'))
 			return (1);
 		else
 			return (0);
@@ -61,9 +73,10 @@ int		fine_check(t_tet *pieces)
 	connections = 0;
 	if (!pieces)
 		return (0);
-	while(pieces)
+	while (pieces)
 	{
-		coordinate_extraction(pieces->content, pieces->x, pieces->y, &connections);
+		coordinate_extraction(pieces->content, pieces->x, pieces->y,
+			&connections);
 		if (connections != 6 && connections != 8)
 			return (0);
 		if (pieces->next == NULL)

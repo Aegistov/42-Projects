@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-//Error output message
+
 void	ft_error(void)
 {
 	ft_putstr_fd("error\n", 1);
 }
-//Helper function for ft_reset, finds coords closest to (0,0)
+
 int		ft_minmax(int s[], int op)
 {
 	int		holder;
@@ -44,7 +44,7 @@ int		ft_minmax(int s[], int op)
 	}
 	return (holder);
 }
-//Resets coords of given tetrimino to as close to (0,0) as possible
+
 void	ft_reset(int x[], int y[])
 {
 	int		min_x;
@@ -60,7 +60,7 @@ void	ft_reset(int x[], int y[])
 	while (++i < 4)
 		y[i] -= min_y;
 }
-//Replaces it with a specific letter for each tetrimino
+
 void	ft_hash(t_tet *lst)
 {
 	char	c;
@@ -68,15 +68,15 @@ void	ft_hash(t_tet *lst)
 	c = 65;
 	while (lst)
 	{
-			ft_reset(lst->x, lst->y);
-			lst->content = ft_memalloc(2);
-			lst->content[0] = c;
-			lst->content[1] = '\0';
-			c++;
-			lst = lst->next;
+		ft_reset(lst->x, lst->y);
+		lst->content = ft_memalloc(2);
+		lst->content[0] = c;
+		lst->content[1] = '\0';
+		c++;
+		lst = lst->next;
 	}
 }
-//Formula for determining the smallest size map needed for given tetriminos
+
 int		tetrimino_num(t_tet *piece)
 {
 	int		i;
@@ -87,6 +87,5 @@ int		tetrimino_num(t_tet *piece)
 		i++;
 		piece = piece->next;
 	}
-	// printf("num of pieces: %d\n", i);
 	return (ft_sqt((i * 4)));
 }

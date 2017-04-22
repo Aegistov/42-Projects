@@ -12,24 +12,26 @@
 
 #include "fillit.h"
 #include "libft.h"
-void map_display(t_map *map)
+
+void	map_display(t_map *map)
 {
 	int		i;
 
 	i = 0;
-	while	(map->map[i] != '\0')
+	while (map->map[i] != '\0')
 	{
 		ft_putstr(map->map[i]);
 		i++;
 	}
 }
+
 int		main(int argc, char **argv)
 {
-	t_tet 	*tetriminos;
+	t_tet		*tetriminos;
 	t_tet		*tmp;
 	t_map		*field;
-	int		increment;
-	int 	fd;
+	int			increment;
+	int			fd;
 
 	if (argc != 2)
 		ft_error();
@@ -42,10 +44,10 @@ int		main(int argc, char **argv)
 	field = ft_memalloc(sizeof(t_map));
 	*field = ft_map(tetrimino_num(tmp), increment);
 	while (!placement(field, tetriminos))
-		{
-			increment++;
-			*field = ft_map(tetrimino_num(tetriminos), increment);
-		}
+	{
+		increment++;
+		*field = ft_map(tetrimino_num(tetriminos), increment);
+	}
 	map_display(field);
 	return (0);
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-//Clears map
+
 void	ft_remove(t_map *map, t_tet *piece, const int x, const int y)
 {
 	int	i;
@@ -25,8 +25,6 @@ void	ft_remove(t_map *map, t_tet *piece, const int x, const int y)
 	}
 }
 
-//Creates map, currently only based on smallest size needed. Function needs to be adjusted to
-//take two parameters, initial size and an incrementing variable being passed in by the algorithm.
 t_map	ft_map(int capacity, int increment)
 {
 	t_map	*new;

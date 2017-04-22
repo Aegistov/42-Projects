@@ -11,10 +11,7 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-//***************
-//This function compares the 4 coordinates given against the CURRENT map if there are no
-//obstructions then it "writes" the piece onto the map, otherwise it returns False.
-//***************
+
 int		compare_coords(t_map *map, t_tet *piece, const int x, const int y)
 {
 	int		n;
@@ -43,11 +40,6 @@ void	ft_convert(t_map *map, t_tet *piece, const int x, const int y)
 			map->map[y + piece->y[i]][x + piece->x[i]] = piece->content[0];
 	}
 }
-
-//Algorithm. It places the initial piece within the two while loops which allows
-//it the option to traverse all the way to the end of the map if the next pieces
-//backtrack far enough. If succesfully placed it will recursively call itself.
-//if recursion fails then it removes the piece and moves it over to try again.
 
 int		placement(t_map *map, t_tet *piece)
 {
