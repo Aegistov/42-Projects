@@ -2,7 +2,7 @@ NAME = fillit
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 LIB = -L./libft -Ilibft -lft
 

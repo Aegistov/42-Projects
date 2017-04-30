@@ -6,7 +6,7 @@
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/02 10:18:46 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/02 10:18:47 by mmorel           ###   ########.fr       */
+/*   Updated: 2017/04/22 01:05:01 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,13 @@ typedef	struct		s_tet
 	struct s_tet	*next;
 }					t_tet;
 
-t_tet	*ft_input(int fd);
-size_t	ft_mode(char *str, char c);
-void	ft_coordinate(char *s, int x[], int y[], int *con);
-int		ft_connections(char *s, int i);
-void	ft_error(void);
-int		ft_minmax(int s[], int op);
-void	ft_reset(int x[], int y[]);
-
-
+t_tet				*ft_input(int fd);
+size_t				ft_mode(char *str, char c);
+void				ft_coordinate(char *s, int x[], int y[], int *con);
+int					ft_connections(char *s, int i);
+void				ft_error(void);
+int					ft_minmax(int s[], int op);
+void				ft_reset(int x[], int y[]);
 
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
@@ -59,8 +57,8 @@ size_t				ft_strlcat(char *dst, char const *src, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strstr(const char *big, const char *little);
-char				*ft_strnstr(const char *big,
-					const char *little, size_t len);
+char				*ft_strnstr(const char *big, const char *little,
+		size_t len);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(char *str);
