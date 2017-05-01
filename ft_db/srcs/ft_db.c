@@ -43,10 +43,10 @@ int	main(void)
 		else if (menu_opt == 4)
 		{
 			table_name = open_table();
-			// printf("pre-open\n");
+			printf("pre-open\n");
 			table = fopen(table_name, "r");
 			// printf("open success\n");
-			add_record(table);
+			add_record(table, table_name);
 			free(table_name);
 			fclose(table);
 		}
