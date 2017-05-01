@@ -29,6 +29,7 @@ int	main(void)
 	printf("2 - Select Table\n");
 	printf("3 - Display Table\n");
 	printf("4 - Add to Table\n");
+	printf("5 - Delete from Table\n");
 	printf("0 - Exit Program\n");
 	while (1)//(menu_opt != 0)
 	{
@@ -39,20 +40,24 @@ int	main(void)
 			table_name = open_table();
 			table = fopen(table_name, "r");
 			read_file(table);
+			fclose(table);
 		}
 		else if (menu_opt == 4)
 		{
 			table_name = open_table();
-			printf("pre-open\n");
 			table = fopen(table_name, "r");
-			// printf("open success\n");
 			add_record(table, table_name);
-			free(table_name);
 			fclose(table);
+		}
+		else if (menu_opt == 5)
+		{
+			table_name = open_table();
+			table = fopen(table_name, "r");
+			delete_record(table, table_name);
+			printf("segfault?\n");
 		}
 		else if (menu_opt == 0)
 			break ;
 	}
-	fclose(table);
 	return (0);
 }

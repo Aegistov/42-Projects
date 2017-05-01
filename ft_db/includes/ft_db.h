@@ -23,5 +23,6 @@
 int		read_file(FILE *table);
 char	*open_table(void);
 int   add_record(FILE *table, char *table_name);
+int   delete_record(FILE *table, char *table_name);
 
 #endif
