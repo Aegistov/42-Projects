@@ -56,6 +56,13 @@ int	main(void)
 			delete_record(table, table_name);
 			printf("segfault?\n");
 		}
+		else if (menu_opt == 6)
+		{
+			table_name = open_table();
+			table = fopen(table_name, "r");
+			modify_record(table, table_name);
+			fclose(table);
+		}
 		else if (menu_opt == 0)
 			break ;
 	}

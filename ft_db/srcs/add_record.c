@@ -6,10 +6,13 @@ int   add_record(FILE *table, char *table_name)
   size_t  nbytes;
   size_t  getline_return;
   char    *parsed_header;
-  char    cell_entry[100];
-  char    record_entry[200];
+  char    *cell_entry;
+  char    *record_entry;
 
-  nbytes = 100;
+  nbytes = 0;
+  header = NULL;
+  cell_entry = (char *)malloc(100);
+  record_entry = (char *)malloc(300);
 	getline_return = getline(&header, &nbytes, table);
   table = freopen(table_name, "a", table);
   parsed_header = strtok(header, ",");
