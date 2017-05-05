@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_db.h                                            :+:      :+:    :+:   */
+/*   del_record.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolabi <yolabi@42.us.org>                  +#+  +:+       +#+        */
+/*   By: mmorel <mmorel@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/26 00:15:24 by yolabi            #+#    #+#             */
-/*   Updated: 2017/04/26 00:17:38 by yolabi           ###   ########.fr       */
+/*   Created: 2017/05/05 13:20:48 by mmorel            #+#    #+#             */
+/*   Updated: 2017/05/05 16:00:31 by yolabi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_DB_H
-# define FT_DB_H
+#include "ft_db.h"
 
-# define DBNAME_SIZE 30
-# define TNAME_SIZE 30
+int	del_record(vector *loaded_table)
+{
+	int	delete_line;
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-#endif
+	printf("ID#: ");
+	scanf("%d", &delete_line);
+	vector_delete(loaded_table, delete_line);
+	return (1);
+}

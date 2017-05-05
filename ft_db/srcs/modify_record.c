@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_table.c                                    :+:      :+:    :+:   */
+/*   modify_record.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <mmorel@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 13:35:06 by mmorel            #+#    #+#             */
-/*   Updated: 2017/05/05 13:35:30 by yolabi           ###   ########.fr       */
+/*   Created: 2017/05/05 13:50:49 by mmorel            #+#    #+#             */
+/*   Updated: 2017/05/05 14:07:16 by yolabi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_db.h"
 
-void	display_loaded_table(vector *loaded_table)
+int		modify_record(vector *loaded_table)
 {
-	int	counter;
+	int		id_number;
+	t_list	*record_entry;
+	char	*id;
 
-	counter = 0;
-	while (counter <= loaded_table->total)
-	{
-		list_print(loaded_table->items[counter]);
-		printf("\n");
-		counter++;
-	}
+	record_entry = NULL;
+	printf("ID#: ");
+	scanf("%d", &id_number);
+	record_entry = store_input(loaded_table);
+	id = itostr(id_number);
+	record_entry->content = id;
+	vector_set(loaded_table, id_number, record_entry);
+	return (1);
 }

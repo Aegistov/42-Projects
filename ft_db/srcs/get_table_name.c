@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_table.c                                    :+:      :+:    :+:   */
+/*   get_table_name.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <mmorel@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 13:35:06 by mmorel            #+#    #+#             */
-/*   Updated: 2017/05/05 13:35:30 by yolabi           ###   ########.fr       */
+/*   Created: 2017/05/05 13:48:08 by mmorel            #+#    #+#             */
+/*   Updated: 2017/05/05 13:54:25 by yolabi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_db.h"
 
-void	display_loaded_table(vector *loaded_table)
+char	*get_table_name(void)
 {
-	int	counter;
+	char	*table_name;
+	char	*tmp;
 
-	counter = 0;
-	while (counter <= loaded_table->total)
-	{
-		list_print(loaded_table->items[counter]);
-		printf("\n");
-		counter++;
-	}
+	table_name = (char *)malloc(256);
+	printf("Table Name: ");
+	scanf("%s", table_name);
+	tmp = (char *)malloc(strlen(table_name));
+	tmp = strcpy(tmp, table_name);
+	free(table_name);
+	return (tmp);
 }

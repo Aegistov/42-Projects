@@ -16,7 +16,7 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 INCS	=	-I./includes/
 SRCDIR	=	./srcs/
-LIST	=	ft_db display_table open_table add_record delete_record
+LIST	=	ft_db display_table get_table_name add_record del_record modify_record read_table vector t_list ft_memcpy save_table search_table help vector_two
 SRCS	=	$(addsuffix .c,$(addprefix $(SRCDIR), $(LIST)))
 OBJS	=	$(addsuffix .o,$(LIST))
 
