@@ -18,7 +18,7 @@
 
 void	ft_printf_di(va_list insertion)
 {
-	printf("Here's a di!\n");
+	// printf("Here's a di!\n");
 	ft_putnbr_fd(va_arg(insertion, int), 1);
 }
 
@@ -37,13 +37,13 @@ void	ft_printf_di(va_list insertion)
 
 void	ft_printf_c(va_list insertion)
 {
-	printf("Here's a c!\n");
-	ft_putchar_fd(va_arg(insertion, char), 1);
+	// printf("Here's a c!\n");
+	ft_putchar_fd(va_arg(insertion, int), 1);
 }
 
 void	ft_printf_s(va_list insertion)
 {
-	printf("Here's a s!\n");
+	// printf("Here's a s!\n");
 	ft_putstr_fd(va_arg(insertion, char *), 1);
 }
 

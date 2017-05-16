@@ -27,17 +27,17 @@ void	ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 	if (format[index] == '%')
 	{
 		index++;
-		printf("Index pre: %d\n", index);
+		// printf("Index pre: %d\n", index);
 		index += ft_printf_capture_flags(format, flags, index);
-		printf("Flags captured: %s\nIndex post flags: %d\n", flags, index);
+		// printf("Flags captured: %s\nIndex post flags: %d\n", flags, index);
 		index += ft_printf_capture_width(format, &width, index);
-		printf("Width captured: %d\nIndex post width: %d\n", width, index);
+		// printf("Width captured: %d\nIndex post width: %d\n", width, index);
 		if (format[index] == '.')
 			index += ft_printf_capture_precision(format, &precision, index);
-		printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
+		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
 		ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
-		printf("\n");
+		// printf("\n");
 		// printf("Does this character appear? %c\n", format[index]);
 	}
-	*start = index;
+	*start = index + 1;
 }
