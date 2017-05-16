@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 15:46:25 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/03 15:46:26 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/03 15:47:01 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/03 15:47:02 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libftprintf.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int		ini;
+	unsigned int	num;
 
-	ini = 0;
-	while (s[ini] != '\0')
+	num = n;
+	if (n < 0)
 	{
-		ft_putchar_fd(s[ini], fd);
-		ini++;
+		num = -n;
+		ft_putchar_fd('-', fd);
+	}
+	if (num >= 10)
+	{
+		ft_putnbr_fd(num / 10, fd);
+		ft_putnbr_fd(num % 10, fd);
+	}
+	else
+	{
+		ft_putchar_fd(num + '0', fd);
 	}
 }

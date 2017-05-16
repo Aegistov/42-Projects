@@ -15,7 +15,21 @@
 
 int		ft_printf(const char *restrict format, ...)
 {
-	ft_printf_parse(format);
-	ft_putchar_fd(*format, 1);
+	va_list		arguments;
+	int			index;
+
+	index = 0;
+	va_start(arguments, format);
+	while (format[index] != '\0')
+	{
+		if (format[index] == '%')
+			ft_printf_parse(format, arguments, &index);
+		else
+		{
+			ft_putchar_fd(format[index], 1);
+			index++;
+		}
+	}
+	// ft_putchar_fd(*format, 1);
 	return (1);
 }

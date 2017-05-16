@@ -12,29 +12,32 @@
 
 #include "../libftprintf.h"
 
-void	ft_printf_parse(const char *restrict format)
+void	ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 {
 	char	flags[6];
+	int		index;
 	int		count;
+	int		width;
+	int		precision;
 
 	count = 0;
-	while (*format != '%')
+	index = *start;
+	width = 0;
+	precision = 0;
+	if (format[index] == '%')
 	{
-		ft_putchar_fd(*format, 1);
-		format++;
+		index++;
+		printf("Index pre: %d\n", index);
+		index += ft_printf_capture_flags(format, flags, index);
+		printf("Flags captured: %s\nIndex post flags: %d\n", flags, index);
+		index += ft_printf_capture_width(format, &width, index);
+		printf("Width captured: %d\nIndex post width: %d\n", width, index);
+		if (format[index] == '.')
+			index += ft_printf_capture_precision(format, &precision, index);
+		printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
+		ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
+		printf("\n");
+		// printf("Does this character appear? %c\n", format[index]);
 	}
-	if (*format == '%')
-	{
-		format++;
-		while (*format == '-' || *format == '0' || *format == '+' || *format == '#' || *format == ' ')
-		{
-			flags[count] = *format;
-			flags[count + 1] = '\0';
-			printf("Format: %c\nFlags: %s\n", *format, flags);
-			format++;
-			count++;
-		}
-		if (ft_strlen(flags))
-			ft_printf_flag_dispatch(format, flags);
-	}
+	*start = index;
 }

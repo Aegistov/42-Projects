@@ -15,5 +15,5 @@
 int		main(void)
 {
 	printf("%e\n", 5431.21);
-	ft_printf("Test %-0+ #d");
+	ft_printf("Test %-0+ #1345431.123454321d What about this? %s\n", 90001, "I know how to print a string!");
 }

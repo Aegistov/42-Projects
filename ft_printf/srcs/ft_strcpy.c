@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 15:46:25 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/03 15:46:26 by mmorel           ###   ########.fr       */
+/*   Created: 2016/10/31 11:10:51 by mmorel            #+#    #+#             */
+/*   Updated: 2016/10/31 11:10:53 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftprintf.h"
-
-void	ft_putstr_fd(char const *s, int fd)
+char	*ft_strcpy(char *dest, char *src)
 {
-	int		ini;
+	int i;
 
-	ini = 0;
-	while (s[ini] != '\0')
+	i = 0;
+	while (src[i] != '\0')
 	{
-		ft_putchar_fd(s[ini], fd);
-		ini++;
+		dest[i] = src[i];
+		i++;
 	}
+	dest[i] = '\0';
+	return (dest);
 }

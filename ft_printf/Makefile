@@ -16,7 +16,7 @@ CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
 INCS	= -I./includes/
 SRCDIR	= ./srcs/
-LIST	= ft_printf_parse ft_printf_output ft_printf ft_putchar_fd
+LIST	= ft_printf_parse ft_printf_output ft_printf ft_putchar_fd ft_printf_capture_flags ft_printf_flag_dispatch ft_strlen ft_printf_capture_width ft_strcpy ft_atoi ft_printf_capture_precision ft_putnbr_fd ft_putstr_fd
 SRCS	= $(addsuffix .c,$(addprefix $(SRCDIR), $(LIST)))
 OBJS	= $(addsuffix .o,$(LIST))
 
