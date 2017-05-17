@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 15:46:09 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/03 15:46:10 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/10 17:18:57 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/10 17:18:59 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
-void	ft_putchar_fd(char c, int fd)
+void	ft_bzero(void *s, size_t n)
 {
-	write(fd, &c, 1);
+	while (n-- > 0)
+		*(char*)s++ = '\0';
 }

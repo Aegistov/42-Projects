@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 15:47:01 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/03 15:47:02 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/02 10:35:15 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/02 10:35:17 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	*ft_memalloc(size_t size)
 {
-	unsigned int	num;
+	void	*ptr;
 
-	num = n;
-	if (n < 0)
-	{
-		num = -n;
-		ft_putchar_fd('-', fd);
-	}
-	if (num >= 10)
-	{
-		ft_putnbr_fd(num / 10, fd);
-		ft_putnbr_fd(num % 10, fd);
-	}
-	else
-	{
-		ft_putchar_fd(num + '0', fd);
-	}
+	if (!(ptr = (void *)malloc(sizeof(void) * size)))
+		return (NULL);
+	ft_bzero(ptr, size);
+	return (ptr);
 }

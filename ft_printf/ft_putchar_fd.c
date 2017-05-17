@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 15:46:25 by mmorel            #+#    #+#             */
-/*   Updated: 2016/11/03 15:46:26 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/03 15:46:09 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/03 15:46:10 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
-	int		ini;
-
-	ini = 0;
-	while (s[ini] != '\0')
-	{
-		ft_putchar_fd(s[ini], fd);
-		ini++;
-	}
+	write(fd, &c, 1);
 }

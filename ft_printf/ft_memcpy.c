@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorel <mmorel@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/11 12:21:23 by mmorel            #+#    #+#             */
-/*   Updated: 2017/05/11 12:21:24 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/01 19:00:02 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/01 19:00:05 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
-# include <unistd.h>
+#include "libftprintf.h"
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_printf_parse(const char *restrict format);
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char	*d;
 
-#endif
+	d = dest;
+	while (n-- > 0)
+		*d++ = *(unsigned char*)src++;
+	return (dest);
+}

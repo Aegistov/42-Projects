@@ -1,4 +1,4 @@
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 int	ft_printf_capture_flags(const char *restrict format, char *flags, int index)
 {

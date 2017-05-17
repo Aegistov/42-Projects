@@ -9,12 +9,8 @@
 /*   Updated: 2017/05/11 14:27:38 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../libftprintf.h"
-// char	(*flag_minus)(const char *restrict);
-// char	(*flag_plus)(const char *restrict);
-// char	(*flag_zero)(const char *restrict);
-// char	(*flag_space)(const char *restrict);
-// char	(*flag_hash)(const char *restrict);
+
+#include "libftprintf.h"
 
 void	ft_printf_di(va_list insertion)
 {

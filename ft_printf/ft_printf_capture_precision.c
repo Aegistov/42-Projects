@@ -1,4 +1,4 @@
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 int		ft_printf_capture_precision(const char *restrict format, int *precision, int index)
 {

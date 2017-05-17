@@ -11,16 +11,27 @@
 # **************************************************************************** #
 
 NAME	= libftprintf.a
-OUTFILE	= -o libftprintf.a
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror
-INCS	= -I./includes/
-SRCDIR	= ./srcs/
-LIST	= ft_printf_parse ft_printf_output ft_printf ft_putchar_fd ft_printf_capture_flags ft_printf_flag_dispatch ft_strlen ft_printf_capture_width ft_strcpy ft_atoi ft_printf_capture_precision ft_putnbr_fd ft_putstr_fd
-SRCS	= $(addsuffix .c,$(addprefix $(SRCDIR), $(LIST)))
-OBJS	= $(addsuffix .o,$(LIST))
+SRCS	= 	ft_printf_parse.c \
+			ft_printf.c \
+			ft_memalloc.c \
+			ft_memcpy.c \
+			ft_bzero.c \
+			ft_printf_capture_flags.c \
+			ft_printf_capture_width.c \
+			ft_printf_capture_precision.c \
+			ft_printf_flag_dispatch.c \
+			ft_strlen.c \
+			ft_strcpy.c \
+			ft_atoi.c \
+			ft_putnbr_fd.c \
+			ft_putstr_fd.c \
+			ft_putchar_fd.c \
 
-.PHONY:	all clean fclean re
+OBJS	= $(SRCS:%.c=%.o)
+
+.PHONY:	all comp NAME dir clean fclean re
 
 all: comp $(NAME) dir
 
@@ -31,7 +42,7 @@ $(NAME):
 	ar rc $(NAME) $(OBJS)
 
 dir:
-	ranlib $(NAME)
+	ranlib libftprintf.a
 
 clean:
 	/bin/rm -f $(OBJS)
