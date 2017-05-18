@@ -5,7 +5,7 @@ int	ft_printf_capture_flags(const char *restrict format, char *flags, int index)
 	int		count;
 
 	count = 0;
-	printf("%d\n", index);
+	// printf("%d\n", index);
 	while (format[index] == '-' || format[index] == '0' || format[index] == '+' || format[index] == '#' || format[index] == ' ')
 	{
 		flags[count] = format[index];

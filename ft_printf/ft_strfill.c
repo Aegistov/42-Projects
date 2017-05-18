@@ -22,8 +22,6 @@ char	*ft_strfill(char *str, char c, int len)
 	while (index < len)
 	{
 		tmp[index] = c;
-		printf("tmp[index]: %c\n", tmp[index]);
-		printf("tmp currently: %s\n", tmp);
 		index++;
 	}
 	tmp[index] = '\0';

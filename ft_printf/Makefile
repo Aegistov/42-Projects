@@ -24,11 +24,14 @@ SRCS	= 	ft_printf_parse.c \
 			ft_printf_flag_dispatch.c \
 			ft_strlen.c \
 			ft_strcpy.c \
+			ft_strncpy.c \
 			ft_atoi.c \
 			ft_putnbr_fd.c \
 			ft_putstr_fd.c \
 			ft_putchar_fd.c \
 			ft_strfill.c \
+			ft_strjoin.c \
+			ft_strchr.c \
 
 OBJS	= $(SRCS:%.c=%.o)
 

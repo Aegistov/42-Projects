@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/31 11:25:59 by mmorel            #+#    #+#             */
-/*   Updated: 2016/10/31 11:26:01 by mmorel           ###   ########.fr       */
+/*   Created: 2016/11/05 11:21:23 by mmorel            #+#    #+#             */
+/*   Updated: 2016/11/05 11:21:24 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-char	*ft_strncpy(char *dest, char *src, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	len;
-
-	len = 0;
-	if (!*src)
+	while (*(char *)s != '\0')
 	{
-		ft_bzero(dest, n);
-		return (dest);
+		if (*(char *)s == c)
+			return ((char *)s);
+		s++;
 	}
-	while (n > 0 && src[len] != '\0')
-	{
-		dest[len] = src[len];
-		n--;
-		len++;
-	}
-	if (n > 0)
-		ft_bzero(&dest[len], n);
-	return (dest);
+	if (*(char *)s == '\0' && c == '\0')
+		return ((char *)s);
+	return (NULL);
 }
