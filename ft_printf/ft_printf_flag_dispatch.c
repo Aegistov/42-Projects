@@ -37,7 +37,7 @@
 // 	ft_putchar_fd(va_arg(insertion, int), 1);
 // }
 
-void	ft_printf_s(va_list insertion, char *flags, int width)
+int		ft_printf_s(va_list insertion, char *flags, int width)
 {
 	// printf("Here's a s!\n");
 	char	*tmp;
@@ -56,10 +56,15 @@ void	ft_printf_s(va_list insertion, char *flags, int width)
 			str = ft_strjoin(va_arg(insertion, char *), tmp);
 		else
 			str = ft_strjoin(tmp, va_arg(insertion, char *));
+		ft_strlen(str);
 		ft_putstr_fd(str, 1);
 	}
 	else
-		ft_putstr_fd(va_arg(insertion, char *), 1);
+	{
+		str = va_arg(insertion, char *);
+		ft_putstr_fd(str, 1);
+	}
+	return (ft_strlen(str));
 }
 
 // void	ft_printf_f(va_list insertion)
@@ -82,10 +87,10 @@ void	ft_printf_s(va_list insertion, char *flags, int width)
 // 	printf("Here's a p!\n");
 // }
 
-void	ft_printf_flag_dispatch(char *flags, int width, int precision, va_list insertion, int argument)
+int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list insertion, int argument)
 {
-	void (*argument_list[127])(va_list, char *, int);
-
+	int (*argument_list[127])(va_list, char *, int);
+	int	len;
 	// argument_list['d'] = ft_printf_di;
 	// argument_list['i'] = ft_printf_di;
 	// argument_list['o'] = ft_printf_o;
@@ -99,7 +104,7 @@ void	ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 	// argument_list['p'] = ft_printf_p;
 	precision += 0;
 	// printf("Dispatcher initiated\nFlags: %s\tWidth: %d\tPrecision: %d\nArgument: %c\n", flags, width, precision, argument);
-	(*argument_list[argument])(insertion, flags, width);
+	len = (*argument_list[argument])(insertion, flags, width);
 	// char (*flag_functions[5])(const char *restrict)
 	// flag_functions[0] = char (*flag_minus)(const char *restrict);
 	// flag_functions[1] = char (*flag_plus)(const char *restrict);
@@ -107,4 +112,5 @@ void	ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 	// flag_functions[3] = char (*flag_space)(const char *restrict);
 	// flag_functions[4] = char (*flag_hash)(const char *restrict);
 	// flag_functions[5] = '\0';
+	return (len);
 }

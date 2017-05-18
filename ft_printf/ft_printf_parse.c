@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-void	ft_printf_parse(const char *restrict format, va_list arguments, int *start)
+int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 {
 	char	flags[6];
 	int		index;
@@ -35,9 +35,12 @@ void	ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 		if (format[index] == '.')
 			index += ft_printf_capture_precision(format, &precision, index);
 		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
-		ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
+		count = ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
 		// printf("\n");
 		// printf("Does this character appear? %c\n", format[index]);
 	}
+	printf("Difference: %d\n", index - *start + 1);
+	count -= (index - *start + 1);
 	*start = index + 1;
+	return (count);
 }

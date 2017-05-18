@@ -19,7 +19,7 @@
 
 int		ft_printf(const char *restrict format, ...);
 void	ft_putchar_fd(char c, int fd);
-void	ft_printf_parse(const char *restrict format, va_list arguments, int *start);
+int		ft_printf_parse(const char *restrict format, va_list arguments, int *start);
 int		ft_strlen(char const *str);
 void	*ft_memalloc(size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -33,7 +33,7 @@ void	ft_putstr_fd(char const *s, int fd);
 char	*ft_strfill(char *str, char c, int len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-void	ft_printf_flag_dispatch(char *flags, int width, int precision, va_list insertion, int argument);
+int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list insertion, int argument);
 int		ft_printf_capture_flags(const char *restrict format, char *flags, int index);
 int		ft_printf_capture_precision(const char *restrict format, int *precision, int index);
 int		ft_printf_capture_width(const char *restrict format, int *width, int index);
