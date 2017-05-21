@@ -18,7 +18,10 @@ int		ft_printf(const char *restrict format, ...)
 	va_list		arguments;
 	int			index;
 	int			len;
+	// char		*str;
+	// char		*tmp;
 
+	// str = (char *)malloc(2);
 	len = 0;
 	index = 0;
 	va_start(arguments, format);
@@ -26,15 +29,20 @@ int		ft_printf(const char *restrict format, ...)
 	{
 		if (format[index] == '%')
 		{
-			// len += index - 1;
 			len += ft_printf_parse(format, arguments, &index);
 		}
 		else
 		{
 			ft_putchar_fd(format[index], 1);
+			// printf("Char: %c\tLen: %d\n", format[index], len);
+			len++;
+			// tmp = ft_strchjoin(str, format[index]);
+			// free (str);
+			// str = tmp;
+			// printf("str: %s\n", str);
 			index++;
 		}
 	}
 	// ft_putchar_fd(*format, 1);
-	return (index + len);
+	return (len);
 }

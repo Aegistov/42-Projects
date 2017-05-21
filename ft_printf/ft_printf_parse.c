@@ -39,8 +39,9 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 		// printf("\n");
 		// printf("Does this character appear? %c\n", format[index]);
 	}
-	printf("Difference: %d\n", index - *start + 1);
-	count -= (index - *start + 1);
+	// printf("Difference: %d\n", index - *start + 1);
+	// count -= (index - *start + 1);
+	// printf("Count: %d\n", count);
 	*start = index + 1;
 	return (count);
 }
