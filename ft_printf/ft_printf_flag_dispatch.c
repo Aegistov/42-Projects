@@ -12,11 +12,51 @@
 
 #include "libftprintf.h"
 
-// void	ft_printf_di(va_list insertion)
-// {
-// 	// printf("Here's a di!\n");
-// 	ft_putnbr_fd(va_arg(insertion, int), 1);
-// }
+int		precision_check(char *str, int precision)
+{
+	int		len;
+
+	len = 0;
+	if (precision > 0)
+	{
+		while (len < precision)
+		{
+			if (str[len] == '\0')
+				break ;
+			len++;
+		}
+	}
+	else
+		len = ft_strlen(str);
+	return (len);
+}
+
+int		ft_printf_di(va_list insertion, char *flags, int width, int precision)
+{
+	int 	holder = va_arg(insertion, int);
+	char	*number_str;
+	char	*pad;
+	int		len;
+	int		index;
+
+	pad = NULL;
+	len = 0;
+	index = -1;
+	number_str = ft_itoa(holder);
+	len = precision_check(number_str, precision);
+	if (width - len > 0)
+	{
+		width -= len;
+		pad = ft_strfill(pad, ' ', width);
+	}
+	if (!ft_strchr(flags, '-') && pad)
+		ft_putstr_fd(pad, 1);
+	while (number_str[++index] != '\0' && index < len)
+		ft_putchar_fd(number_str[index], 1);
+	if(ft_strchr(flags, '-') && pad)
+		ft_putstr_fd(pad, 1);
+	return (len + width);	
+}
 
 // void	ft_printf_o(va_list insertion)
 // {
@@ -33,7 +73,6 @@
 
 int		ft_printf_c(va_list insertion, char *flags, int width, int precision)
 {
-	// printf("Here's a c!\n");
 	char	*pad;
 	char	c;
 	int		len;
@@ -57,25 +96,6 @@ int		ft_printf_c(va_list insertion, char *flags, int width, int precision)
 	if(ft_strchr(flags, '-') && pad)
 		ft_putstr_fd(pad, 1);
 	return (len + width);
-}
-
-int		precision_check(char *str, int precision)
-{
-	int		len;
-
-	len = 0;
-	if (precision > 0)
-	{
-		while (len < precision)
-		{
-			if (str[len] == '\0')
-				break ;
-			len++;
-		}
-	}
-	else
-		len = ft_strlen(str);
-	return (len);
 }
 
 int		ft_printf_s(va_list insertion, char *flags, int width, int precision)
@@ -130,7 +150,7 @@ int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 {
 	int (*argument_list[127])(va_list, char *, int, int);
 	int	len;
-	// argument_list['d'] = ft_printf_di;
+	argument_list['d'] = ft_printf_di;
 	// argument_list['i'] = ft_printf_di;
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
