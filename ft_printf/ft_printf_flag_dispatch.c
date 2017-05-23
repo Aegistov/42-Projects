@@ -31,140 +31,79 @@
 // 	printf("Here's a u!\n");
 // }
 
-// void	ft_printf_c(va_list insertion)
-// {
-// 	// printf("Here's a c!\n");
-// 	ft_putchar_fd(va_arg(insertion, int), 1);
-// }
+int		ft_printf_c(va_list insertion, char *flags, int width, int precision)
+{
+	// printf("Here's a c!\n");
+	char	*pad;
+	char	c;
+	int		len;
+	int		index;
+
+	pad = NULL;
+	c = va_arg(insertion, int);
+	len = 1;
+	index = -1;
+	precision = 0;
+	if (!c)
+		c = 0;
+	if (width - len > 0)
+	{
+		width -= len;
+		pad = ft_strfill(pad, ' ', width);
+	}
+	if (!ft_strchr(flags, '-') && pad)
+		ft_putstr_fd(pad, 1);
+	ft_putchar_fd(c, 1);
+	if(ft_strchr(flags, '-') && pad)
+		ft_putstr_fd(pad, 1);
+	return (len + width);
+}
+
+int		precision_check(char *str, int precision)
+{
+	int		len;
+
+	len = 0;
+	if (precision > 0)
+	{
+		while (len < precision)
+		{
+			if (str[len] == '\0')
+				break ;
+			len++;
+		}
+	}
+	else
+		len = ft_strlen(str);
+	return (len);
+}
 
 int		ft_printf_s(va_list insertion, char *flags, int width, int precision)
 {
-	// printf("Here's a s!\n");
-	char	*tmp;
 	char	*pad;
 	char	*str;
 	int		len;
 	int		index;
 
-	tmp = NULL;
 	pad = NULL;
-	str = NULL;
 	str = va_arg(insertion, char *);
-	len = ft_strlen(str);
-	index = 0;
-
-
-
-	if (precision > 0)
+	len = 0;
+	index = -1;
+	if (!str)
+		str = "(null)";
+	len = precision_check(str, precision);
+	if (width - len > 0)
 	{
-		width -= precision;
-	}
-	else
 		width -= len;
-
-	if (width > 0)
-	{
 		pad = ft_strfill(pad, ' ', width);
 	}
 	if (!ft_strchr(flags, '-') && pad)
-	{
 		ft_putstr_fd(pad, 1);
-	}
-	while (str[index] != '\0')
-	{
-		if (precision > 0 && index == precision)
-			break ;
+	while (str[++index] != '\0' && index < len)
 		ft_putchar_fd(str[index], 1);
-		index++;
-	}
 	if(ft_strchr(flags, '-') && pad)
 		ft_putstr_fd(pad, 1);
-	if (precision > 0)
-		return (precision + width);
-	else
-		return (len + width);
-
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
-//FIX RETURN VALUE
+	return (len + width);
 }
 
 // void	ft_printf_f(va_list insertion)
@@ -196,7 +135,7 @@ int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
 	// argument_list['u'] = ft_printf_u;
-	// argument_list['c'] = ft_printf_c;
+	argument_list['c'] = ft_printf_c;
 	argument_list['s'] = ft_printf_s;
 	// argument_list['f'] = ft_printf_f;
 	// argument_list['e'] = ft_printf_e;

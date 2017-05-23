@@ -36,6 +36,7 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 			index += ft_printf_capture_precision(format, &precision, index);
 		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
 		count = ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
+		// printf("Current count: %d\n", count);
 		// printf("\n");
 		// printf("Does this character appear? %c\n", format[index]);
 	}
