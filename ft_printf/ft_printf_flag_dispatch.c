@@ -12,6 +12,37 @@
 
 #include "libftprintf.h"
 
+int		integer_signage(char *flags, int sign, char *pad, int holder)
+{
+	int		count;
+
+	count = 0;
+	if (ft_strchr(flags, '+') && sign == 0)
+	{
+		ft_putchar_fd('+', 1);
+		count++;
+	}
+	else if (sign == 1 && holder != -2147483648)
+	{
+		if (pad && pad[0] != ' ')
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
+		else if (!pad)
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
+	}
+	else if (ft_strchr(flags, ' ') && sign == 0)
+	{
+		ft_putchar_fd(' ', 1);
+		count++;
+	}
+	return (count);
+}
+
 int		precision_check(char *str, int precision)
 {
 	int		len;
@@ -31,25 +62,25 @@ int		precision_check(char *str, int precision)
 	return (len);
 }
 
-char	*padding(int *width, char *flags, int len)
+char	*padding(int *width, char *flags, int len, int sign)
 {
 	char	*pad;
-	int		sign;
+	int		flag_sign;
 
-	sign = 0;
+	flag_sign = 0;
 	pad = NULL;
-	if (ft_strchr(flags, ' ') || ft_strchr(flags, '+'))
-		sign = 1;
-	if (*width - len - sign > 0)
+	if ((ft_strchr(flags, ' ') || ft_strchr(flags, '+')) && sign == 0)
+		flag_sign = 1;
+	if (*width - len - flag_sign > 0)
 	{
-		// printf("Width: %d\tLen: %d\tSign: %d\n", *width, len, sign);
-		*width -= len - sign;
+		// printf("Width: %d\tLen: %d\tflag_sign: %d\n", *width, len, flag_sign);
+		*width -= (len + flag_sign + sign);
 		if (ft_strchr(flags, '0'))
 			pad = ft_strfill(pad, '0', *width);
 		else
 			pad = ft_strfill(pad, ' ', *width);
-		// *width -= len - sign;
-		// printf("Width in padding: %d\n", *width);
+		// *width -= len - flag_sign;
+		// printf("Width in padding: %d\nPadding: %s\n", *width, pad);
 	}
 	return (pad);
 }
@@ -64,11 +95,10 @@ int		ft_printf_di(va_list insertion, char *flags, int width, int precision)
 	int 	sign;
 	int		count;
 
-	pad = NULL;
+	// pad = NULL;
 	len = 0;
 	index = -1;
 	holder = va_arg(insertion, int);
-	// printf("Holder: %d\n", holder);
 	sign = 0;
 	count = 0;
 	if (holder < 0)
@@ -79,37 +109,24 @@ int		ft_printf_di(va_list insertion, char *flags, int width, int precision)
 	}
 	number_str = ft_itoa(holder);
 	len = precision_check(number_str, precision);
-	pad = padding(&width, flags, len);
-	if (ft_strchr(flags, '+') && sign == 0)
-	{
-		ft_putchar_fd('+', 1);
-		count++;
-	}
-	else if (sign == 1 && holder != -2147483648)
-	{
-		ft_putchar_fd('-', 1);
-		count++;
-	}
-	else if (ft_strchr(flags, ' ') && sign == 0)
-	{
-		ft_putchar_fd(' ', 1);
-		count++;
-	}
+	pad = padding(&width, flags, len, sign);
+	count = integer_signage(flags, sign, pad, holder);
 	if (!ft_strchr(flags, '-') && pad)
-	{
-		// while(*pad != '\0')
-		// 	ft_putchar_fd(*pad++, 1);
-		// count++;
 		ft_putstr_fd(pad, 1);
-	}
-	// index = -1;
+	if (sign == 1 && pad && pad[0] == ' ')
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
 	while (number_str[++index] != '\0' && index < len)
 		ft_putchar_fd(number_str[index], 1);
 	if(ft_strchr(flags, '-') && pad)
 	{
-		// while(*pad != '\0')
-		// 	ft_putchar_fd(*pad++, 1);
-		// count++;
+		if (ft_strchr(pad, '0'))
+		{
+			free(pad);
+			ft_strfill(pad, ' ', width);
+		}
 		ft_putstr_fd(pad, 1);
 	}
 	return (len + width + count);	
