@@ -31,31 +31,88 @@ int		precision_check(char *str, int precision)
 	return (len);
 }
 
+char	*padding(int *width, char *flags, int len)
+{
+	char	*pad;
+	int		sign;
+
+	sign = 0;
+	pad = NULL;
+	if (ft_strchr(flags, ' ') || ft_strchr(flags, '+'))
+		sign = 1;
+	if (*width - len - sign > 0)
+	{
+		// printf("Width: %d\tLen: %d\tSign: %d\n", *width, len, sign);
+		*width -= len - sign;
+		if (ft_strchr(flags, '0'))
+			pad = ft_strfill(pad, '0', *width);
+		else
+			pad = ft_strfill(pad, ' ', *width);
+		// *width -= len - sign;
+		// printf("Width in padding: %d\n", *width);
+	}
+	return (pad);
+}
+
 int		ft_printf_di(va_list insertion, char *flags, int width, int precision)
 {
-	int 	holder = va_arg(insertion, int);
+	int 	holder;
 	char	*number_str;
 	char	*pad;
 	int		len;
 	int		index;
+	int 	sign;
+	int		count;
 
 	pad = NULL;
 	len = 0;
 	index = -1;
+	holder = va_arg(insertion, int);
+	// printf("Holder: %d\n", holder);
+	sign = 0;
+	count = 0;
+	if (holder < 0)
+	{
+		sign = 1;
+		if (holder != -2147483648)
+			holder *= -1;
+	}
 	number_str = ft_itoa(holder);
 	len = precision_check(number_str, precision);
-	if (width - len > 0)
+	pad = padding(&width, flags, len);
+	if (ft_strchr(flags, '+') && sign == 0)
 	{
-		width -= len;
-		pad = ft_strfill(pad, ' ', width);
+		ft_putchar_fd('+', 1);
+		count++;
+	}
+	else if (sign == 1 && holder != -2147483648)
+	{
+		ft_putchar_fd('-', 1);
+		count++;
+	}
+	else if (ft_strchr(flags, ' ') && sign == 0)
+	{
+		ft_putchar_fd(' ', 1);
+		count++;
 	}
 	if (!ft_strchr(flags, '-') && pad)
+	{
+		// while(*pad != '\0')
+		// 	ft_putchar_fd(*pad++, 1);
+		// count++;
 		ft_putstr_fd(pad, 1);
+	}
+	// index = -1;
 	while (number_str[++index] != '\0' && index < len)
 		ft_putchar_fd(number_str[index], 1);
 	if(ft_strchr(flags, '-') && pad)
+	{
+		// while(*pad != '\0')
+		// 	ft_putchar_fd(*pad++, 1);
+		// count++;
 		ft_putstr_fd(pad, 1);
-	return (len + width);	
+	}
+	return (len + width + count);	
 }
 
 // void	ft_printf_o(va_list insertion)
@@ -151,7 +208,7 @@ int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 	int (*argument_list[127])(va_list, char *, int, int);
 	int	len;
 	argument_list['d'] = ft_printf_di;
-	// argument_list['i'] = ft_printf_di;
+	argument_list['i'] = ft_printf_di;
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
 	// argument_list['u'] = ft_printf_u;
