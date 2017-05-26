@@ -15,12 +15,11 @@
 int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 {
 	char	flags[6];
+	char	length[3];
 	int		index;
-	int		count;
 	int		width;
 	int		precision;
 
-	count = 0;
 	index = *start;
 	width = 0;
 	precision = 0;
@@ -34,15 +33,10 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 		// printf("Width captured: %d\nIndex post width: %d\n", width, index);
 		if (format[index] == '.')
 			index += ft_printf_capture_precision(format, &precision, index);
+		index += ft_printf_capture_length(format, length, index);
 		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
-		count = ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]);
-		// printf("Current count: %d\n", count);
-		// printf("\n");
-		// printf("Does this character appear? %c\n", format[index]);
 	}
 	// printf("Difference: %d\n", index - *start + 1);
-	// count -= (index - *start + 1);
-	// printf("Count: %d\n", count);
 	*start = index + 1;
-	return (count);
+	return (ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]));
 }

@@ -85,6 +85,19 @@ char	*padding(int *width, char *flags, int len, int sign)
 	return (pad);
 }
 
+int		ft_printf_hhd(va_list insertion, char *flags, int width, int precision)
+{
+	int		count;
+	int		holder;
+
+	// if ()
+	holder = va_arg(insertion, signed char);
+	printf("I'm using them! %s%d%d\n", flags, width, precision);
+	count = 0;
+
+	return (count);
+}
+
 int		ft_printf_di(va_list insertion, char *flags, int width, int precision)
 {
 	int 	holder;
@@ -226,6 +239,7 @@ int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 	int	len;
 	argument_list['d'] = ft_printf_di;
 	argument_list['i'] = ft_printf_di;
+	argument_list['h'] = ft_printf_hhd;
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
 	// argument_list['u'] = ft_printf_u;

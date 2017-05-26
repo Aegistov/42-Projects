@@ -21,6 +21,7 @@ SRCS	= 	ft_printf_parse.c \
 			ft_printf_capture_flags.c \
 			ft_printf_capture_width.c \
 			ft_printf_capture_precision.c \
+			ft_printf_capture_length.c \
 			ft_printf_flag_dispatch.c \
 			ft_strlen.c \
 			ft_strcpy.c \

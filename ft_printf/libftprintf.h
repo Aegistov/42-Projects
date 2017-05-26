@@ -40,5 +40,6 @@ int		ft_printf_flag_dispatch(char *flags, int width, int precision, va_list inse
 int		ft_printf_capture_flags(const char *restrict format, char *flags, int index);
 int		ft_printf_capture_precision(const char *restrict format, int *precision, int index);
 int		ft_printf_capture_width(const char *restrict format, int *width, int index);
+int		ft_printf_capture_length(const char *restrict format, char *length, int index);
 
 #endif

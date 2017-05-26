@@ -12,6 +12,22 @@
 
 #include "libftprintf.h"
 #include <string.h>
+
+int		test_hhd_basic(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	//hhd takes an int and does the modulo opertaion on it to return the ascii character
+
+	printf("[test_hhd_basic]\n\n");
+	base_printf = printf("%hhd\nAs a char: %c\n", (signed char)2147483275, (signed char)90);
+	my_printf = ft_printf("%hhd\n", (signed char)-128);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		test_null_argument(void)
 {
 	int		my_printf;
@@ -68,7 +84,14 @@ int		main(void)
 	// urlen = printf("Here's a test with a normal string: %s\nNow here's one with padding: %50.2s\nAnd now a string with /zero/ padding ;): %10s\nHere's one on the left...with padding...made of zeroes: %-10s\n", "Look a normal string!", "Look a string with padding!", "That's A Lot of Zero!", "I've got a large tail end!");
 	// printf("Return Values:\nft_printf: %d\tprintf: %d\n", mylen, urlen);
 	// ft_printf("Test %-0+ #1345431.123454321d What about this? %s ...And characters: %c!\n", 90001, "I know how to print a string!", 'F');
-	printf("Difference: %d\n", precision_test_for_strings());
-	printf("Difference: %d\n", precision_test_for_empty_string());
-	printf("Difference: %d\n", test_null_argument());
+
+
+
+	// printf("Difference: %d\n", precision_test_for_strings());
+	// printf("Difference: %d\n", precision_test_for_empty_string());
+	// printf("Difference: %d\n", test_null_argument());
+	printf("Difference: %d\n", test_hhd_basic());
+
+
+
 }
