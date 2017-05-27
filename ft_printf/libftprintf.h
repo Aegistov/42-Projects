@@ -17,6 +17,14 @@
 # include <stdarg.h>
 # include <stdlib.h>
 
+typedef	struct s_mods
+{
+	unsigned int	left_align : 1;
+	unsigned int	plus : 1;
+	unsigned int	space : 1;
+}				t_mods;
+
+
 int		ft_printf(const char *restrict format, ...);
 void	ft_putchar_fd(char c, int fd);
 int		ft_printf_parse(const char *restrict format, va_list arguments, int *start);
