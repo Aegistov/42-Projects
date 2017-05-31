@@ -1,6 +1,6 @@
 #include "libftprintf.h"
 
-int		ft_printf_capture_precision(const char *restrict format, int *precision, int index)
+int		ft_printf_capture_precision(const char *restrict format, t_mods *mod, int index)
 {
 	int		count;
 	char	*precision_number;
@@ -24,7 +24,7 @@ int		ft_printf_capture_precision(const char *restrict format, int *precision, in
 			precision_number = tmp;
 			// printf("precision_number is: %s\n", precision_number);
 		}
-		*precision = ft_atoi(precision_number);
+		mod->precision = ft_atoi(precision_number);
 		return (count + 1);
 	}
 	return (-1);

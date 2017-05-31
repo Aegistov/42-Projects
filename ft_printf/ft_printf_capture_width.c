@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-int		ft_printf_capture_width(const char *restrict format, int *width, int index)
+int		ft_printf_capture_width(const char *restrict format, t_mods *mod, int index)
 {
 	int		count;
 	char	*number;
@@ -36,7 +36,7 @@ int		ft_printf_capture_width(const char *restrict format, int *width, int index)
 			number = tmp;
 			// printf("Number is: %s\n", number);
 		}
-		*width = ft_atoi(number);
+		mod->width = ft_atoi(number);
 		return (count);
 	}
 	return (0);

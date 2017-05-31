@@ -14,29 +14,26 @@
 
 int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 {
-	char	flags[6];
-	char	length[3];
 	int		index;
-	int		width;
-	int		precision;
+	t_mods	*mod;
 
 	index = *start;
-	width = 0;
-	precision = 0;
+	if (!(mod = (t_mods *)ft_memalloc(sizeof(t_mods))))
+		return (-1);
 	if (format[index] == '%')
 	{
 		index++;
 		// printf("Index pre: %d\n", index);
-		index += ft_printf_capture_flags(format, flags, index);
+		index += ft_printf_capture_flags(format, mod, index);
 		// printf("Flags captured: %s\nIndex post flags: %d\n", flags, index);
-		index += ft_printf_capture_width(format, &width, index);
+		index += ft_printf_capture_width(format, mod, index);
 		// printf("Width captured: %d\nIndex post width: %d\n", width, index);
 		if (format[index] == '.')
-			index += ft_printf_capture_precision(format, &precision, index);
-		index += ft_printf_capture_length(format, length, index);
+			index += ft_printf_capture_precision(format, mod, index);
+		index += ft_printf_capture_length(format, mod, index);
 		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
 	}
 	// printf("Difference: %d\n", index - *start + 1);
 	*start = index + 1;
-	return (ft_printf_flag_dispatch(flags, width, precision, arguments, format[index]));
+	return (ft_printf_flag_dispatch(mod, arguments, format[index]));
 }

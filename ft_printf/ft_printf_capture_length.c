@@ -12,18 +12,30 @@
 
 #include "libftprintf.h"
 
-int		ft_printf_capture_length(const char *restrict format, char *length, int index)
+int		ft_printf_capture_length(const char *restrict format, t_mods *mod, int index)
 {
 	int		count;
 
 	count = 0;
-	while (format[index] == 'h' || format[index] == 'l' || format[index] == 'L' || format[index] == 'z' || format[index] == 'j' || format[index] == 't')
+	if (format[index] == 'h' || format[index] == 'l' || format[index] == 'L' || format[index] == 'z' || format[index] == 'j' || format[index] == 't')
 	{
-		length[count] = format[index];
-		length[count + 1] = '\0';
-		printf("Format: %c\nLength: %s\n", format[index], length);
-		index += 1;
+		if (format[index + 1] == 'h')
+			{
+				mod->length = hh;
+				index++;
+				count++;
+			}
+		else if (format[index + 1] == 'l')
+			{
+				mod->length = ll;
+				index++;
+				count++;
+			}
+		else
+			mod->length = format[index];
+		index++;
 		count++;
 	}
+	// printf("Length: %c\n", mod->length);
 	return (count);
 }
