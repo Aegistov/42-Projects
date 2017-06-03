@@ -12,9 +12,9 @@
 
 #include "libftprintf.h"
 
-int		ft_intlen(int n)
+int		ft_intlen(intmax_t n)
 {
-	int		i;
+	intmax_t		i;
 
 	i = 0;
 	if (n > 0)

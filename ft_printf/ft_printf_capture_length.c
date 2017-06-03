@@ -31,8 +31,18 @@ int		ft_printf_capture_length(const char *restrict format, t_mods *mod, int inde
 				index++;
 				count++;
 			}
-		else
-			mod->length = format[index];
+		else if (format[index] == 'h')
+			mod->length = h;
+		else if (format[index] == 'l')
+			mod->length = l;
+		else if (format[index] == 'L')
+			mod->length = L;
+		else if (format[index] == 'z')
+			mod->length = z;
+		else if (format[index] == 'j')
+			mod->length = j;
+		else if (format[index] == 't')
+			mod->length = t;
 		index++;
 		count++;
 	}

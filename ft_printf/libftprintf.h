@@ -39,6 +39,23 @@ typedef	struct s_mods
 	}				length;
 }				t_mods;
 
+typedef struct 	s_pf_string
+{
+	char			*pad;
+	int				len;
+	unsigned int	neg : 1;
+	char			*num_str;
+	union			arg
+	{
+		int				sint;
+		unsigned int 	uint;
+		double			dbl;
+		char			*str;
+		char			ch;
+		void			*vdpt;
+		intmax_t		mint;
+	}				arg;
+}				t_pf_string;
 
 int		ft_printf(const char *restrict format, ...);
 void	ft_putchar_fd(char c, int fd);
@@ -56,8 +73,8 @@ void	ft_putstr_fd(char const *s, int fd);
 char	*ft_strfill(char *str, char c, int len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-int		ft_intlen(int n);
-char	*ft_itoa(int n);
+int		ft_intlen(intmax_t n);
+char	*ft_itoa(intmax_t n);
 char	*ft_strnew(size_t size);
 int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument);
 int		ft_printf_capture_flags(const char *restrict format, t_mods *mod, int index);

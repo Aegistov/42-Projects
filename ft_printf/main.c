@@ -69,6 +69,19 @@ int		precision_test_for_strings(void)
 	return (base_printf - my_printf);
 }
 
+int		basic_test_for_strings(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[basic_test_for_strings]\n\n");
+	my_printf = ft_printf("%s%s%s%s%s", "this", "is", "a", "multi", "string");
+	base_printf = printf("%s%s%s%s%s", "this", "is", "a", "multi", "string");
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		main(void)
 {
 	// char 	*tmp;
@@ -90,7 +103,8 @@ int		main(void)
 	// printf("Difference: %d\n", precision_test_for_strings());
 	// printf("Difference: %d\n", precision_test_for_empty_string());
 	// printf("Difference: %d\n", test_null_argument());
-	printf("Difference: %d\n", test_hhd_basic());
+	// printf("Difference: %d\n", test_hhd_basic());
+	printf("Difference: %d\n", basic_test_for_strings());
 
 
 

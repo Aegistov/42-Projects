@@ -15,20 +15,22 @@
 intmax_t	ft_printf_cast(t_mods *mod, va_list insertion)
 {
 	intmax_t	holder;
-	// printf("[ft_printf_cast]initiated...\n");
 	holder = va_arg(insertion, intmax_t);
 	if (mod->length == hh)
-		{
-			// printf("hh-case\n");
-			return((char)holder);
-		}
-	else if (mod->length == h)
-		return ((short)holder);
-	else if (mod->length == l)
-		return ((long)holder);
-	else if (mod->length == ll)
-		return ((long long)holder);
-	return ((int)holder);
+		holder = (char)holder;
+	else if (mod->length == 1)
+		holder = (short int)holder;
+	else if (mod->length == 3)
+		holder = (long int)holder;
+	else if (mod->length == 4)
+		holder = (long long int)holder;
+	else if (mod->length == 6)
+		holder = (size_t)holder;
+	else if (mod->length == 7)
+		holder = (intmax_t)holder;
+	else
+		holder = (int)holder;
+	return (holder);
 }
 
 int		integer_signage(t_mods *mod, int sign, char *pad, int holder)
@@ -78,7 +80,37 @@ int		precision_check(char *str, int precision)
 	}
 	else
 		len = ft_strlen(str);
+	// printf("Len in precision_check: %d\n", len);
 	return (len);
+}
+
+char	*padding_for_num(t_mods *mod, int len, int sign)
+{
+	char	*pad;
+	int		flag_sign;
+	int 	width;
+
+	if (mod->width > mod->precision)
+		width = mod->width;
+	else
+		width = mod->precision;
+	flag_sign = 0;
+	pad = NULL;
+	if ((mod->space || mod->plus) && sign == 0)
+		flag_sign = 1;
+	if (width - len - flag_sign > 0)
+	{
+		// printf("Width: %d\tLen: %d\tflag_sign: %d\n", *width, len, flag_sign);
+		mod->width -= (len + flag_sign + sign);
+		width -= (len + flag_sign + sign);
+		if (mod->zero || (mod->precision > mod->width))
+			pad = ft_strfill(pad, '0', width);
+		else
+			pad = ft_strfill(pad, ' ', width);
+		// *width -= len - flag_sign;
+		// printf("Width in padding: %d\nPadding: %s\n", *width, pad);
+	}
+	return (pad);
 }
 
 char	*padding(t_mods *mod, int len, int sign)
@@ -121,7 +153,7 @@ char	*padding(t_mods *mod, int len, int sign)
 
 int		ft_printf_di(va_list insertion, t_mods *mod)
 {
-	int 	holder;
+	intmax_t 	holder;
 	char	*number_str;
 	char	*pad;
 	int		len;
@@ -132,13 +164,7 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	// pad = NULL;
 	len = 0;
 	index = -1;
-	if (mod->length != none)
-	{
-		holder = ft_printf_cast(mod, insertion);
-		// printf("%d\n", holder);
-	}
-	else
-		holder = va_arg(insertion, int);
+	holder = ft_printf_cast(mod, insertion);
 	sign = 0;
 	count = 0;
 	if (holder < 0)
@@ -148,8 +174,9 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 			holder *= -1;
 	}
 	number_str = ft_itoa(holder);
+	// printf("Number: %s\n", number_str);
 	len = precision_check(number_str, mod->precision);
-	pad = padding(mod, len, sign);
+	pad = padding_for_num(mod, len, sign);
 	count = integer_signage(mod, sign, pad, holder);
 	if (!mod->left_align && pad)
 		ft_putstr_fd(pad, 1);
@@ -215,36 +242,55 @@ int		ft_printf_c(va_list insertion, t_mods *mod)
 
 int		ft_printf_s(va_list insertion, t_mods *mod)
 {
-	char	*pad;
-	char	*str;
+	// char	*pad;
+	// char	*str;
 	int		len;
-	int		index;
-	int		width;
+	t_pf_string	str;
+	int			index;
+	int			width;
 
+	// if (!(str = (t_pf_string *)ft_memalloc(sizeof(t_pf_string))))
+	// 	return (-1);
 	width = mod->width;
-	pad = NULL;
-	str = va_arg(insertion, char *);
-	len = 0;
+	len = str.len;
+	str.arg.str = va_arg(insertion, char *);
+	printf("String: %s\n", str.arg.str);
 	index = -1;
-	if (!str)
-		str = "(null)";
-	len = precision_check(str, mod->precision);
-	// printf("LEN: %d\nWidth: %d\nWidth - len = %d\n", len, mod->width, mod->width - len);
-	if (width - len > 0)
+	printf("null check\n");
+	if (!str.arg.str)
+		str.arg.str = "(null)";
+	printf("len loading\n");
+	str.len = precision_check(str.arg.str, mod->precision);
+	printf("LEN: %d\nWidth: %d\nWidth - len = %d\n", len, mod->width, mod->width - len);
+	if (width - str.len > 0)
 	{
-		// printf("Editing width: %d\n", mod->width);
-		mod->width -= len;
+		printf("Editing width: %d\n", mod->width);
+		mod->width -= str.len;
 		// printf("%d\n", mod->width);
-		pad = ft_strfill(pad, ' ', mod->width);
+		str.pad = ft_strfill(str.pad, ' ', mod->width);
 	}
-	if (!mod->left_align && pad)
-		ft_putstr_fd(pad, 1);
-	while (str[++index] != '\0' && index < len)
-		ft_putchar_fd(str[index], 1);
-	if(mod->left_align && pad)
-		ft_putstr_fd(pad, 1);
+	printf("pad check\n");
+	if (str.pad == NULL)
+		printf("NULL");
+	printf("next stage: %s\n", str.pad);
+	if (!mod->left_align && str.pad != NULL)
+	{
+		printf("entered\n");
+		// p
+		ft_putstr_fd(str.pad, 1);
+		printf("complete\n");
+	}
+	printf("arguement printing\n");
+	while (str.arg.str[++index] != '\0')
+	{
+		// printf("Char: %c\n", str.arg.str[index]);
+		ft_putchar_fd(str.arg.str[index], 1);
+	}
+	// printf("Char out of loop: %c\n", str.arg.str[index]);
+	if(mod->left_align && str.pad)
+		ft_putstr_fd(str.pad, 1);
 	// printf("LEN: %d\nWidth: %d\n", len, mod->width);
-	return (len + mod->width);
+	return (str.len + mod->width);
 }
 
 
@@ -272,19 +318,20 @@ int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument)
 {
 	int (*argument_list[127])(va_list, t_mods *);
 	int	len;
-	argument_list['d'] = ft_printf_di;
-	argument_list['i'] = ft_printf_di;
+	// argument_list['d'] = ft_printf_di;
+	// argument_list['i'] = ft_printf_di;
 	// argument_list['h'] = ft_printf_hhd;
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
-	// argument_list['u'] = ft_printf_u;
-	argument_list['c'] = ft_printf_c;
+	// argument_list['u'] = ft_printf_di;
+	// argument_list['c'] = ft_printf_c;
 	argument_list['s'] = ft_printf_s;
 	// argument_list['f'] = ft_printf_f;
 	// argument_list['e'] = ft_printf_e;
 	// argument_list['g'] = ft_printf_g;
-	// argument_list['p'] = ft_printf_p;
+	// argument_list['%'] = ft_printf_p;
 	// printf("Dispatcher initiated\nFlags: %s\tWidth: %d\tPrecision: %d\nArgument: %c\n", flags, width, precision, argument);
+	// printf("dispatcher initiated\n");
 	len = (*argument_list[argument])(insertion, mod);
 	// char (*flag_functions[5])(const char *restrict)
 	// flag_functions[0] = char (*flag_minus)(const char *restrict);

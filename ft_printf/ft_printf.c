@@ -25,6 +25,7 @@ int		ft_printf(const char *restrict format, ...)
 	len = 0;
 	index = 0;
 	va_start(arguments, format);
+	// printf("Reading initiated...\n");
 	while (format[index] != '\0')
 	{
 		if (format[index] == '%')
@@ -44,6 +45,7 @@ int		ft_printf(const char *restrict format, ...)
 			index++;
 		}
 	}
+	// printf("Reading complete.\n");
 	// ft_putchar_fd(*format, 1);
 	return (len);
 }

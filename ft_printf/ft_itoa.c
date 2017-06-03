@@ -12,34 +12,40 @@
 
 #include "libftprintf.h"
 
-static	char	*ft_itoc(int n, char *s, unsigned int size)
+static	char	*ft_itoc(intmax_t n, char *s, intmax_t size)
 {
-	unsigned int	num;
+	intmax_t	num;
 
 	size--;
 	num = n;
+	// printf("[ft_itoc] num: %jd\n", num);
 	if (n < 0)
 	{
-		num = -n;
+		num *= -1;
 		s[0] = '-';
 	}
-	if (num >= 10)
+	// printf("[ft_itoc] num after conversion: %jd\n", num);
+	while (num >= 10)
 	{
-		ft_itoc(num / 10, s, size);
+		// ft_itoc(num / 10, s, size);
 		s[size] = ((num % 10) + '0');
+		num /= 10;
+		size--;
 	}
-	else
-		s[size] = (num + '0');
+	// else
+	s[size] = (num + '0');
 	return (s);
 }
 
-char			*ft_itoa(int n)
+char			*ft_itoa(intmax_t n)
 {
 	char			*str;
-	unsigned int	size;
+	intmax_t		size;
 
+	// printf("[ft_itoa] Num: %jd\n", n);
 	str = NULL;
 	size = ft_intlen(n) + 1;
+	// printf("[ft_itoa] size:%jd\n", size);
 	if (n == 0)
 	{
 		str = ft_strnew(1);
