@@ -18,6 +18,7 @@ void		pf_string_init(t_pf_string *str)
 	str->pad = NULL;
 	str->len = 0;
 	str->neg = 0;
+	str->wflag = 0;
 	str->num_str = NULL;
 }
 
@@ -93,33 +94,27 @@ int		precision_check(char *str, int precision)
 	return (len);
 }
 
-char	*padding_for_num(t_mods *mod, t_pf_string *nbr)
+void	padding_for_num(t_mods *mod, t_pf_string *nbr)
 {
-	char	*pad;
 	int		flag_sign;
 	int 	width;
 
-	if (mod->width > mod->precision)
-		width = mod->width;
-	else
-		width = mod->precision;
+	width = mod->width > mod->precision ? mod->width : mod->precision;
 	flag_sign = 0;
-	pad = NULL;
-	if ((mod->space || mod->plus) && sign == 0)
+	if ((mod->space || mod->plus) && !nbr->neg)
 		flag_sign = 1;
-	if (width - len - flag_sign > 0)
+	if (width - nbr->len - flag_sign > 0)
 	{
-		// printf("Width: %d\tLen: %d\tflag_sign: %d\n", *width, len, flag_sign);
-		mod->width -= (len + flag_sign + sign);
-		width -= (len + flag_sign + sign);
+		width -= (nbr->len + flag_sign + nbr->neg);
 		if (mod->zero || (mod->precision > mod->width))
-			pad = ft_strfill(pad, '0', width);
+			nbr->pad = ft_strfill(nbr->pad, '0', width);
 		else
-			pad = ft_strfill(pad, ' ', width);
-		// *width -= len - flag_sign;
-		// printf("Width in padding: %d\nPadding: %s\n", *width, pad);
+			nbr->pad = ft_strfill(nbr->pad, ' ', width);
+		if (mod->width > mod->precision)
+			mod->width -= (nbr->len + flag_sign + nbr->neg);
+		else
+			mod->precision -= (nbr->len + flag_sign + nbr->neg);
 	}
-	return (pad);
 }
 
 char	*padding(t_mods *mod, int len, int sign)
@@ -165,7 +160,7 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	}
 	nbr.num_str = ft_itoa(nbr.arg.mint);
 	nbr.len = precision_check(nbr.num_str, mod->precision);
-	nbr.pad = padding_for_num(mod, nbr);
+	padding_for_num(mod, &nbr);
 	count = integer_signage(mod, nbr.neg, nbr.pad, nbr.arg.mint);
 	if (!mod->left_align && nbr.pad)
 		ft_putstr_fd(nbr.pad, 1);
@@ -186,7 +181,10 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 		ft_putstr_fd(nbr.pad, 1);
 	}
 	if (mod->precision > mod->width)
+	{
+		// printf("Len: %d\tPrecision: %d\tCount: %d\n", nbr.len, mod->precision, count);
 		return (nbr.len + mod->precision + count);
+	}
 	else
 		return (nbr.len + mod->width + count);	
 }

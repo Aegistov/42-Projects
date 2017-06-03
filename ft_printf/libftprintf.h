@@ -44,6 +44,7 @@ typedef struct 	s_pf_string
 	char			*pad;
 	int				len;
 	unsigned int	neg : 1;
+	unsigned int	wflag : 1;
 	char			*num_str;
 	union			arg
 	{
