@@ -41,7 +41,8 @@ typedef	struct s_mods
 
 typedef struct 	s_pf_string
 {
-	char			*pad;
+	char			*ppad;
+	char			*wpad;
 	int				len;
 	unsigned int	neg : 1;
 	unsigned int	wflag : 1;

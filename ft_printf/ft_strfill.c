@@ -29,5 +29,6 @@ char	*ft_strfill(char *str, char c, int len)
 		str = tmp;
 	else
 		str = ft_strncpy(str, tmp, (size_t)len);
+	// printf("[ft_strfill] Str:%sEnd\n", str);
 	return (str);
 }

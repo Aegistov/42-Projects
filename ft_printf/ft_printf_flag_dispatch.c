@@ -15,7 +15,8 @@
 
 void		pf_string_init(t_pf_string *str)
 {
-	str->pad = NULL;
+	str->wpad = NULL;
+	str->ppad = NULL;
 	str->len = 0;
 	str->neg = 0;
 	str->wflag = 0;
@@ -73,6 +74,30 @@ int		integer_signage(t_mods *mod, int sign, char *pad, int holder)
 	}
 	return (count);
 }
+void	num_precision_pad(t_mods *mod, t_pf_string *nbr)
+{
+	// int		pwidth;
+
+	mod->precision -= ft_strlen(nbr->num_str);
+	nbr->ppad = ft_strfill(nbr->ppad, '0', mod->precision);
+	// printf("[num_precision_pad] ppad: %s\n", nbr->ppad);
+}
+
+int		num_precision_check(t_mods *mod, t_pf_string *nbr)
+{
+	int		len;
+
+	len = 0;
+	if ((int)mod->precision <= ft_strlen(nbr->num_str))
+		len = ft_strlen(nbr->num_str);
+	else
+	{
+		len = mod->precision;
+		num_precision_pad(mod, nbr);
+	}
+	// printf("[num_precision_check] Len: %d\n", len);
+	return (len);
+}
 
 int		precision_check(char *str, int precision)
 {
@@ -94,27 +119,29 @@ int		precision_check(char *str, int precision)
 	return (len);
 }
 
-void	padding_for_num(t_mods *mod, t_pf_string *nbr)
+void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 {
 	int		flag_sign;
 	int 	width;
 
-	width = mod->width > mod->precision ? mod->width : mod->precision;
 	flag_sign = 0;
 	if ((mod->space || mod->plus) && !nbr->neg)
 		flag_sign = 1;
-	if (width - nbr->len - flag_sign > 0)
+	if (mod->width > (mod->precision + nbr->len + flag_sign))
 	{
-		width -= (nbr->len + flag_sign + nbr->neg);
-		if (mod->zero || (mod->precision > mod->width))
-			nbr->pad = ft_strfill(nbr->pad, '0', width);
+		// printf("Width loaded\n");
+		// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
+		width = mod->width - (nbr->len + flag_sign + nbr->neg);
+		// printf("Width is: %d\n", width);
+		if (mod->zero)
+			nbr->wpad = ft_strfill(nbr->wpad, '0', width);
 		else
-			nbr->pad = ft_strfill(nbr->pad, ' ', width);
-		if (mod->width > mod->precision)
-			mod->width -= (nbr->len + flag_sign + nbr->neg);
-		else
-			mod->precision -= (nbr->len + flag_sign + nbr->neg);
+			nbr->wpad = ft_strfill(nbr->wpad, ' ', width);
+		
+		mod->width -= (mod->precision + nbr->len + flag_sign + nbr->neg);
+		// printf("wpad: %s\n", nbr->wpad);
 	}
+	// printf("Width too small\n");
 }
 
 char	*padding(t_mods *mod, int len, int sign)
@@ -159,34 +186,38 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 			nbr.arg.mint *= -1;
 	}
 	nbr.num_str = ft_itoa(nbr.arg.mint);
-	nbr.len = precision_check(nbr.num_str, mod->precision);
-	padding_for_num(mod, &nbr);
-	count = integer_signage(mod, nbr.neg, nbr.pad, nbr.arg.mint);
-	if (!mod->left_align && nbr.pad)
-		ft_putstr_fd(nbr.pad, 1);
-	if (nbr.neg == 1 && nbr.pad && nbr.pad[0] == ' ')
+	nbr.len = num_precision_check(mod, &nbr);
+	num_width_pad(mod, &nbr);
+	count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	// printf("[ft_printf_di] Count: %d\n", count);
+	// printf("[ft_printf_di] ppad: %s\n", nbr.ppad);
+	if (!mod->left_align && nbr.wpad)
+		ft_putstr_fd(nbr.wpad, 1);
+	if (nbr.ppad)
+		ft_putstr_fd(nbr.ppad, 1);		
+	if (nbr.neg == 1 && nbr.wpad && nbr.wpad[0] == ' ')
 		{
 			ft_putchar_fd('-', 1);
 			count++;
 		}
 	while (nbr.num_str[++index] != '\0' && index < nbr.len)
 		ft_putchar_fd(nbr.num_str[index], 1);
-	if(mod->left_align && nbr.pad)
+	if(mod->left_align && nbr.wpad)
 	{
 		if (mod->zero)
 		{
-			free(nbr.pad);
-			ft_strfill(nbr.pad, ' ', mod->width);
+			free(nbr.wpad);
+			ft_strfill(nbr.wpad, ' ', mod->width);
 		}
-		ft_putstr_fd(nbr.pad, 1);
+		ft_putstr_fd(nbr.wpad, 1);
 	}
 	if (mod->precision > mod->width)
 	{
 		// printf("Len: %d\tPrecision: %d\tCount: %d\n", nbr.len, mod->precision, count);
-		return (nbr.len + mod->precision + count);
+		return (nbr.len + count);
 	}
 	else
-		return (nbr.len + mod->width + count);	
+		return (nbr.len + mod->width + mod->precision + count);	
 }
 
 // void	ft_printf_o(va_list insertion)
@@ -218,13 +249,13 @@ int		ft_printf_c(va_list insertion, t_mods *mod)
 	if (width - chr.len > 0)
 	{
 		mod->width -= chr.len;
-		chr.pad = ft_strfill(chr.pad, ' ', mod->width);
+		chr.wpad = ft_strfill(chr.wpad, ' ', mod->width);
 	}
-	if (!mod->left_align && chr.pad)
-		ft_putstr_fd(chr.pad, 1);
+	if (!mod->left_align && chr.wpad)
+		ft_putstr_fd(chr.wpad, 1);
 	ft_putchar_fd(chr.arg.ch, 1);
-	if(mod->left_align && chr.pad)
-		ft_putstr_fd(chr.pad, 1);
+	if(mod->left_align && chr.wpad)
+		ft_putstr_fd(chr.wpad, 1);
 	return (chr.len + mod->width);
 }
 
@@ -244,14 +275,14 @@ int		ft_printf_s(va_list insertion, t_mods *mod)
 	if (width - str.len > 0)
 	{
 		mod->width -= str.len;
-		str.pad = ft_strfill(str.pad, ' ', mod->width);
+		str.wpad = ft_strfill(str.wpad, ' ', mod->width);
 	}
-	if (!mod->left_align && str.pad != NULL)
-		ft_putstr_fd(str.pad, 1);
+	if (!mod->left_align && str.wpad != NULL)
+		ft_putstr_fd(str.wpad, 1);
 	while (str.arg.str[++index] != '\0' && index < str.len)
 		ft_putchar_fd(str.arg.str[index], 1);
-	if(mod->left_align && str.pad)
-		ft_putstr_fd(str.pad, 1);
+	if(mod->left_align && str.wpad)
+		ft_putstr_fd(str.wpad, 1);
 	return (str.len + mod->width);
 }
 
