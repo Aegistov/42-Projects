@@ -27,5 +27,5 @@ int		ft_printf_capture_precision(const char *restrict format, t_mods *mod, int i
 		mod->precision = ft_atoi(precision_number);
 		return (count + 1);
 	}
-	return (-1);
+	return (1);
 }

@@ -29,9 +29,13 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 		index += ft_printf_capture_width(format, mod, index);
 		// printf("Width captured: %d\nIndex post width: %d\n", width, index);
 		if (format[index] == '.')
+		{
+			// printf("Index pre: %d\n", index);
 			index += ft_printf_capture_precision(format, mod, index);
+			// printf("Index post: %d\n", index);
+		}
 		index += ft_printf_capture_length(format, mod, index);
-		// printf("Precision captured: %d\nIndex post precision: %d\n", precision, index);
+		// printf("Precision captured: %d\nIndex post precision: %d\n", mod->precision, index);
 	}
 	// printf("Difference: %d\n", index - *start + 1);
 	*start = index + 1;

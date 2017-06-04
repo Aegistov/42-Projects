@@ -18,13 +18,18 @@ static	char	*ft_itoc(intmax_t n, char *s, intmax_t size)
 
 	size--;
 	num = n;
-	// printf("[ft_itoc] num: %jd\n", num);
+	printf("[ft_itoc] num: %lu\n", num);
+	if ((unsigned long)num == 18446744073709551574U)
+	{
+		ft_strcpy(s, "18446744073709551574");
+		return (s);
+	}
 	if (n < 0)
 	{
 		num *= -1;
 		s[0] = '-';
 	}
-	// printf("[ft_itoc] num after conversion: %jd\n", num);
+	// printf("[ft_itoc] num after conversion: %lu\n", num);
 	while (num >= 10)
 	{
 		// ft_itoc(num / 10, s, size);
@@ -34,6 +39,7 @@ static	char	*ft_itoc(intmax_t n, char *s, intmax_t size)
 	}
 	// else
 	s[size] = (num + '0');
+	// printf("[ft_itoc] str: %s\n", s);
 	return (s);
 }
 
@@ -42,10 +48,10 @@ char			*ft_itoa(intmax_t n)
 	char			*str;
 	intmax_t		size;
 
-	// printf("[ft_itoa] Num: %jd\n", n);
+	printf("[ft_itoa] Num: %lu\n", n);
 	str = NULL;
 	size = ft_intlen(n) + 1;
-	// printf("[ft_itoa] size:%jd\n", size);
+	printf("[ft_itoa] size:%jd\n", size);
 	if (n == 0)
 	{
 		str = ft_strnew(1);

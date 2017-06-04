@@ -23,6 +23,27 @@ void		pf_string_init(t_pf_string *str)
 	str->num_str = NULL;
 }
 
+intmax_t	ft_printf_cast_u(t_mods *mod, va_list insertion)
+{
+	intmax_t	holder;
+	holder = va_arg(insertion, intmax_t);
+	if (mod->length == hh)
+		holder = (char)holder;
+	else if (mod->length == 1)
+		holder = (short int)holder;
+	else if (mod->length == 3)
+		holder = (unsigned long int)holder;
+	else if (mod->length == 4)
+		holder = (unsigned long long int)holder;
+	else if (mod->length == 6)
+		holder = (size_t)holder;
+	else if (mod->length == 7)
+		holder = (intmax_t)holder;
+	else
+		holder = (unsigned int)holder;
+	return (holder);
+}
+
 intmax_t	ft_printf_cast(t_mods *mod, va_list insertion)
 {
 	intmax_t	holder;
@@ -44,12 +65,12 @@ intmax_t	ft_printf_cast(t_mods *mod, va_list insertion)
 	return (holder);
 }
 
-int		integer_signage(t_mods *mod, int sign, char *pad, int holder)
+int		integer_signage(t_mods *mod, int sign, char *pad, intmax_t holder)
 {
 	int		count;
 
 	count = 0;
-	if (mod->plus && sign == 0)
+	if (mod->plus && sign == 0 && holder != 4294967295)
 	{
 		ft_putchar_fd('+', 1);
 		count++;
@@ -67,7 +88,7 @@ int		integer_signage(t_mods *mod, int sign, char *pad, int holder)
 			count++;
 		}
 	}
-	else if (mod->space && sign == 0)
+	else if (mod->space && sign == 0  && holder != 4294967295)
 	{
 		ft_putchar_fd(' ', 1);
 		count++;
@@ -142,6 +163,8 @@ void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 		mod->width -= (nbr->len + flag_sign + nbr->neg);
 		// printf("wpad: %s\n", nbr->wpad);
 	}
+	else if (mod->width < (unsigned int)nbr->len)
+		mod->width = 0;
 	// printf("Width too small\n");
 }
 
@@ -168,6 +191,68 @@ char	*padding(t_mods *mod, int len, int sign)
 		// printf("Width in padding: %d\nPadding: %s\n", *width, pad);
 	}
 	return (pad);
+}
+
+int		ft_printf_u(va_list insertion, t_mods *mod)
+{
+	t_pf_string	nbr;
+	int		index;
+	int		count;
+
+	pf_string_init(&nbr);
+	index = -1;
+	nbr.arg.mint = ft_printf_cast_u(mod, insertion);
+	printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
+	count = 0;
+	if (nbr.arg.mint < 0 && (unsigned long)nbr.arg.mint != 18446744073709551574U)
+	{
+		printf("Entered\n");
+		nbr.neg = 1;
+		if (nbr.arg.mint != -2147483648)
+			nbr.arg.mint *= -1;
+	}
+	printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
+	nbr.num_str = ft_itoa(nbr.arg.mint);
+	printf("[ft_printf_u] str: %s\n", nbr.num_str);
+	nbr.len = num_precision_check(mod, &nbr);
+	num_width_pad(mod, &nbr);
+	if (!(nbr.wpad && nbr.wpad[0] == ' '))
+		count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	// printf("[ft_printf_di] Count: %d\n", count);
+	// printf("[ft_printf_di] ppad: %s\n", nbr.ppad);
+	// printf("[ft_printf_di] wpad: %s\n", nbr.wpad);
+	if (!mod->left_align && nbr.wpad)
+		ft_putstr_fd(nbr.wpad, 1);
+	if (nbr.wpad && nbr.wpad[0] == ' ')
+		count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	if (nbr.ppad)
+		ft_putstr_fd(nbr.ppad, 1);
+	if (nbr.neg == 1 && nbr.wpad && nbr.wpad[0] == ' ')
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
+	while (nbr.num_str[++index] != '\0' && index < nbr.len)
+		ft_putchar_fd(nbr.num_str[index], 1);
+	if(mod->left_align && nbr.wpad)
+	{
+		if (mod->zero)
+		{
+			free(nbr.wpad);
+			ft_strfill(nbr.wpad, ' ', mod->width);
+		}
+		ft_putstr_fd(nbr.wpad, 1);
+	}
+	if (mod->precision > mod->width)
+	{
+		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + count);
+	}
+	else
+	{
+		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + mod->width + count);	
+	}
 }
 
 int		ft_printf_di(va_list insertion, t_mods *mod)
@@ -324,7 +409,8 @@ int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument)
 	// argument_list['h'] = ft_printf_hhd;
 	// argument_list['o'] = ft_printf_o;
 	// argument_list['x'] = ft_printf_x;
-	// argument_list['u'] = ft_printf_di;
+	argument_list['u'] = ft_printf_u;
+	argument_list['U'] = ft_printf_u;
 	argument_list['c'] = ft_printf_c;
 	argument_list['s'] = ft_printf_s;
 	// argument_list['f'] = ft_printf_f;
