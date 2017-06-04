@@ -36,6 +36,7 @@ SRCS	= 	ft_printf_parse.c \
 			ft_itoa.c \
 			ft_intlen.c \
 			ft_strnew.c \
+			ft_strdup.c \
 
 OBJS	= $(SRCS:%.c=%.o)
 

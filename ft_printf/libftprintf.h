@@ -78,6 +78,7 @@ char	*ft_strchr(const char *s, int c);
 int		ft_intlen(intmax_t n);
 char	*ft_itoa(intmax_t n);
 char	*ft_strnew(size_t size);
+char	*ft_strdup(char *s1);
 int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument);
 int		ft_printf_capture_flags(const char *restrict format, t_mods *mod, int index);
 int		ft_printf_capture_precision(const char *restrict format, t_mods *mod, int index);

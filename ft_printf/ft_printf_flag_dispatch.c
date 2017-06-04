@@ -202,18 +202,18 @@ int		ft_printf_u(va_list insertion, t_mods *mod)
 	pf_string_init(&nbr);
 	index = -1;
 	nbr.arg.mint = ft_printf_cast_u(mod, insertion);
-	printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
+	// printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
 	count = 0;
 	if (nbr.arg.mint < 0 && (unsigned long)nbr.arg.mint != 18446744073709551574U)
 	{
-		printf("Entered\n");
+		// printf("Entered\n");
 		nbr.neg = 1;
 		if (nbr.arg.mint != -2147483648)
 			nbr.arg.mint *= -1;
 	}
-	printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
+	// printf("[ft_printf_u] nbr: %lu\n", nbr.arg.mint);
 	nbr.num_str = ft_itoa(nbr.arg.mint);
-	printf("[ft_printf_u] str: %s\n", nbr.num_str);
+	// printf("[ft_printf_u] str: %s\n", nbr.num_str);
 	nbr.len = num_precision_check(mod, &nbr);
 	num_width_pad(mod, &nbr);
 	if (!(nbr.wpad && nbr.wpad[0] == ' '))

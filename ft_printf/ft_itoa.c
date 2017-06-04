@@ -18,12 +18,7 @@ static	char	*ft_itoc(intmax_t n, char *s, intmax_t size)
 
 	size--;
 	num = n;
-	printf("[ft_itoc] num: %lu\n", num);
-	if ((unsigned long)num == 18446744073709551574U)
-	{
-		ft_strcpy(s, "18446744073709551574");
-		return (s);
-	}
+	// printf("[ft_itoc] num: %lu\n", num);
 	if (n < 0)
 	{
 		num *= -1;
@@ -48,14 +43,19 @@ char			*ft_itoa(intmax_t n)
 	char			*str;
 	intmax_t		size;
 
-	printf("[ft_itoa] Num: %lu\n", n);
+	// printf("[ft_itoa] Num: %lu\n", n);
 	str = NULL;
 	size = ft_intlen(n) + 1;
-	printf("[ft_itoa] size:%jd\n", size);
+	// printf("[ft_itoa] size:%jd\n", size);
 	if (n == 0)
 	{
 		str = ft_strnew(1);
 		str[0] = '0';
+	}
+	else if ((unsigned long)n == 18446744073709551574U)
+	{
+		str = ft_strdup("18446744073709551574");
+		return (str);
 	}
 	else
 	{
