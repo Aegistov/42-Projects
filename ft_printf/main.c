@@ -121,6 +121,32 @@ int		big_width_small_precision_test_for_number(void)
 	return (base_printf - my_printf);
 }
 
+int		sign_big_width_small_precision_test_for_number(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[sign_big_width_small_precision_test_for_number]\n\n");
+	my_printf = ft_printf("%+10.5d\n", 4242);
+	base_printf = printf("%+10.5d\n", 4242);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		zero_width_precision_test_for_number(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[zero_width_precision_test_for_number]\n\n");
+	my_printf = ft_printf("%03.2d\n", 0);
+	base_printf = printf("%03.2d\n", 0);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		main(void)
 {
 	// char 	*tmp;
@@ -146,5 +172,7 @@ int		main(void)
 	// printf("Difference: %d\n", basic_test_for_strings());
 	// printf("Difference: %d\n", width_test_for_number());
 	// printf("Difference: %d\n", small_width_big_precision_test_for_number());
-	printf("Difference: %d\n", big_width_small_precision_test_for_number());
+	// printf("Difference: %d\n", big_width_small_precision_test_for_number());
+	// printf("Difference: %d\n", sign_big_width_small_precision_test_for_number());
+	printf("Difference: %d\n", zero_width_precision_test_for_number());
 }

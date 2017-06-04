@@ -127,18 +127,19 @@ void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 	flag_sign = 0;
 	if ((mod->space || mod->plus) && !nbr->neg)
 		flag_sign = 1;
-	if (mod->width > (mod->precision + nbr->len + flag_sign))
+	// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
+	if (mod->width > (unsigned int)(nbr->len + flag_sign))
 	{
 		// printf("Width loaded\n");
 		// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
 		width = mod->width - (nbr->len + flag_sign + nbr->neg);
 		// printf("Width is: %d\n", width);
-		if (mod->zero)
+		if (mod->zero && !nbr->ppad)
 			nbr->wpad = ft_strfill(nbr->wpad, '0', width);
 		else
 			nbr->wpad = ft_strfill(nbr->wpad, ' ', width);
 		
-		mod->width -= (mod->precision + nbr->len + flag_sign + nbr->neg);
+		mod->width -= (nbr->len + flag_sign + nbr->neg);
 		// printf("wpad: %s\n", nbr->wpad);
 	}
 	// printf("Width too small\n");
@@ -188,13 +189,17 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	nbr.num_str = ft_itoa(nbr.arg.mint);
 	nbr.len = num_precision_check(mod, &nbr);
 	num_width_pad(mod, &nbr);
-	count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	if (!(nbr.wpad && nbr.wpad[0] == ' '))
+		count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
 	// printf("[ft_printf_di] Count: %d\n", count);
 	// printf("[ft_printf_di] ppad: %s\n", nbr.ppad);
+	// printf("[ft_printf_di] wpad: %s\n", nbr.wpad);
 	if (!mod->left_align && nbr.wpad)
 		ft_putstr_fd(nbr.wpad, 1);
+	if (nbr.wpad && nbr.wpad[0] == ' ')
+		count = integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
 	if (nbr.ppad)
-		ft_putstr_fd(nbr.ppad, 1);		
+		ft_putstr_fd(nbr.ppad, 1);
 	if (nbr.neg == 1 && nbr.wpad && nbr.wpad[0] == ' ')
 		{
 			ft_putchar_fd('-', 1);
@@ -213,11 +218,14 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	}
 	if (mod->precision > mod->width)
 	{
-		// printf("Len: %d\tPrecision: %d\tCount: %d\n", nbr.len, mod->precision, count);
+		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
 		return (nbr.len + count);
 	}
 	else
-		return (nbr.len + mod->width + mod->precision + count);	
+	{
+		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + mod->width + count);	
+	}
 }
 
 // void	ft_printf_o(va_list insertion)
