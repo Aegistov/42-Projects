@@ -186,6 +186,32 @@ int		hexadecimal_long_test_for_number(void)
 	return (base_printf - my_printf);
 }
 
+int		test_precision_d_higher_min_width_neg(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_precision_d_higher_min_width_neg]\n\n");
+	my_printf = ft_printf("%15.4d\n", -42);
+	base_printf = printf("%15.4d\n", -42);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_precision_d_zero_value(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_precision_d_zero_value]\n\n");
+	my_printf = ft_printf("%.d, %.0dEnd\n", 0, 0);
+	base_printf = printf("%.d, %.0dEnd\n", 0, 0);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		main(void)
 {
 	// char 	*tmp;
@@ -216,5 +242,7 @@ int		main(void)
 	// printf("Difference: %d\n", zero_width_precision_test_for_number());
 	// printf("Difference: %d\n", empty_precision_test_for_number());
 	// printf("Difference: %d\n", basic_unsigned_long_test_for_number());
-	printf("Difference: %d\n", hexadecimal_long_test_for_number());
+	// printf("Difference: %d\n", hexadecimal_long_test_for_number());
+	// printf("Difference: %d\n", test_precision_d_higher_min_width_neg());
+	printf("Difference: %d\n", test_precision_d_zero_value());
 }

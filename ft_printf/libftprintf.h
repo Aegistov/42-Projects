@@ -26,6 +26,7 @@ typedef	struct s_mods
 	unsigned int	hash : 1;
 	unsigned int	width;
 	unsigned int	precision;
+	int 			arg;
 	enum {
 					none,
 					h,
@@ -77,8 +78,10 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 int		ft_intlen(intmax_t n);
 int 	ft_intlen_hex(uintmax_t n);
+int		ft_pf_intlen_oct(uintmax_t n);
 char	*ft_itoa(intmax_t n);
 char	*ft_itoa_hex(uintmax_t n, unsigned int lcase);
+char	*ft_pf_itoa_oct(uintmax_t n);
 char	*ft_strnew(size_t size);
 char	*ft_strdup(char *s1);
 int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument);
@@ -86,5 +89,7 @@ int		ft_printf_capture_flags(const char *restrict format, t_mods *mod, int index
 int		ft_printf_capture_precision(const char *restrict format, t_mods *mod, int index);
 int		ft_printf_capture_width(const char *restrict format, t_mods *mod, int index);
 int		ft_printf_capture_length(const char *restrict format, t_mods *mod, int index);
+int		ft_pf_num_print_order(t_mods *mod, t_pf_string *nbr);
+int		ft_pf_num_sign(t_mods *mod, int sign, char *pad, intmax_t holder);
 
 #endif

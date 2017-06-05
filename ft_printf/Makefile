@@ -23,6 +23,8 @@ SRCS	= 	ft_printf_parse.c \
 			ft_printf_capture_precision.c \
 			ft_printf_capture_length.c \
 			ft_printf_flag_dispatch.c \
+			ft_pf_num_print_order.c \
+			ft_pf_num_sign.c \
 			ft_strlen.c \
 			ft_strcpy.c \
 			ft_strncpy.c \
@@ -35,8 +37,10 @@ SRCS	= 	ft_printf_parse.c \
 			ft_strchr.c \
 			ft_itoa.c \
 			ft_itoa_hex.c \
+			ft_pf_itoa_oct.c \
 			ft_intlen.c \
 			ft_intlen_hex.c \
+			ft_pf_intlen_oct.c \
 			ft_strnew.c \
 			ft_strdup.c \
 
