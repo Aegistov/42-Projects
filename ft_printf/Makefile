@@ -34,7 +34,9 @@ SRCS	= 	ft_printf_parse.c \
 			ft_strjoin.c \
 			ft_strchr.c \
 			ft_itoa.c \
+			ft_itoa_hex.c \
 			ft_intlen.c \
+			ft_intlen_hex.c \
 			ft_strnew.c \
 			ft_strdup.c \
 

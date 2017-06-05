@@ -155,12 +155,16 @@ void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 		// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
 		width = mod->width - (nbr->len + flag_sign + nbr->neg);
 		// printf("Width is: %d\n", width);
+		if (mod->hash)
+			width -= 2;
 		if (mod->zero && !nbr->ppad)
 			nbr->wpad = ft_strfill(nbr->wpad, '0', width);
 		else
 			nbr->wpad = ft_strfill(nbr->wpad, ' ', width);
 		
-		mod->width -= (nbr->len + flag_sign + nbr->neg);
+		mod->width = (mod->hash == 1) ?
+		(mod->width - (nbr->len + flag_sign + nbr->neg) - 2) :
+		 (mod->width - (nbr->len + flag_sign + nbr->neg));
 		// printf("wpad: %s\n", nbr->wpad);
 	}
 	else if (mod->width < (unsigned int)nbr->len)
@@ -191,6 +195,154 @@ char	*padding(t_mods *mod, int len, int sign)
 		// printf("Width in padding: %d\nPadding: %s\n", *width, pad);
 	}
 	return (pad);
+}
+
+int		ft_printf_X(va_list insertion, t_mods *mod)
+{
+	t_pf_string	nbr;
+	int		index;
+	int		count;
+
+	pf_string_init(&nbr);
+	index = -1;
+	nbr.arg.mint = ft_printf_cast_u(mod, insertion);
+	count = 0;
+	if (nbr.arg.mint == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
+	nbr.num_str = ft_itoa_hex(nbr.arg.mint, 1);
+	nbr.len = num_precision_check(mod, &nbr);
+	num_width_pad(mod, &nbr);
+	if (!(nbr.wpad && nbr.wpad[0] == ' '))
+	{
+		count += integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+		if (mod->hash)
+		{
+			ft_putstr_fd("0X", 1);
+			count += 2;
+		}
+	}
+	// printf("[ft_printf_di] Count: %d\n", count);
+	// printf("[ft_printf_di] ppad: %s\n", nbr.ppad);
+	// printf("[ft_printf_di] wpad: %s\n", nbr.wpad);
+	
+	if (!mod->left_align && nbr.wpad)
+		ft_putstr_fd(nbr.wpad, 1);
+
+	if (nbr.wpad && nbr.wpad[0] == ' ')
+	{
+		if (mod->hash)
+		{
+			ft_putstr_fd("0X", 1);
+			count += 2;
+		}
+		count += integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	}
+	if (nbr.ppad)
+		ft_putstr_fd(nbr.ppad, 1);
+	if (nbr.neg == 1 && nbr.wpad && nbr.wpad[0] == ' ')
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
+	while (nbr.num_str[++index] != '\0' && index < nbr.len)
+		ft_putchar_fd(nbr.num_str[index], 1);
+	if(mod->left_align && nbr.wpad)
+	{
+		if (mod->zero)
+		{
+			free(nbr.wpad);
+			ft_strfill(nbr.wpad, ' ', mod->width);
+		}
+		ft_putstr_fd(nbr.wpad, 1);
+	}
+	if (mod->precision > mod->width)
+	{
+		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + count);
+	}
+	else
+	{
+		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + mod->width + count);	
+	}
+}
+
+int		ft_printf_x(va_list insertion, t_mods *mod)
+{
+	t_pf_string	nbr;
+	int		index;
+	int		count;
+
+	pf_string_init(&nbr);
+	index = -1;
+	nbr.arg.mint = ft_printf_cast_u(mod, insertion);
+	count = 0;
+	if (nbr.arg.mint == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
+	// printf("[ft_printf_x] nbr.arg.mint: %lu\n", nbr.arg.mint);
+	nbr.num_str = ft_itoa_hex(nbr.arg.mint, 0);
+	// printf("[ft_printf_x] num_str: %s\n", nbr.num_str);
+	nbr.len = num_precision_check(mod, &nbr);
+	num_width_pad(mod, &nbr);
+	if (!(nbr.wpad && nbr.wpad[0] == ' '))
+	{
+		count += integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+		if (mod->hash)
+		{
+			ft_putstr_fd("0x", 1);
+			count += 2;
+		}
+	}
+	// printf("[ft_printf_di] Count: %d\n", count);
+	// printf("[ft_printf_di] ppad: %s\n", nbr.ppad);
+	// printf("[ft_printf_di] wpad: %s\n", nbr.wpad);
+	
+	if (!mod->left_align && nbr.wpad)
+		ft_putstr_fd(nbr.wpad, 1);
+
+	if (nbr.wpad && nbr.wpad[0] == ' ')
+	{
+		if (mod->hash)
+		{
+			ft_putstr_fd("0x", 1);
+			count += 2;
+		}
+		count += integer_signage(mod, nbr.neg, nbr.wpad, nbr.arg.mint);
+	}
+	if (nbr.ppad)
+		ft_putstr_fd(nbr.ppad, 1);
+	if (nbr.neg == 1 && nbr.wpad && nbr.wpad[0] == ' ')
+		{
+			ft_putchar_fd('-', 1);
+			count++;
+		}
+	while (nbr.num_str[++index] != '\0' && index < nbr.len)
+		ft_putchar_fd(nbr.num_str[index], 1);
+	if(mod->left_align && nbr.wpad)
+	{
+		if (mod->zero)
+		{
+			free(nbr.wpad);
+			ft_strfill(nbr.wpad, ' ', mod->width);
+		}
+		ft_putstr_fd(nbr.wpad, 1);
+	}
+	if (mod->precision > mod->width)
+	{
+		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + count);
+	}
+	else
+	{
+		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
+		return (nbr.len + mod->width + count);	
+	}
 }
 
 int		ft_printf_u(va_list insertion, t_mods *mod)
@@ -313,19 +465,6 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	}
 }
 
-// void	ft_printf_o(va_list insertion)
-// {
-// 	printf("Here's a o!\n");
-// }
-// void	ft_printf_x(va_list insertion)
-// {
-// 	printf("Here's a x!\n");
-// }
-// void	ft_printf_u(va_list insertion)
-// {
-// 	printf("Here's a u!\n");
-// }
-
 int		ft_printf_c(va_list insertion, t_mods *mod)
 {
 	t_pf_string	chr;
@@ -408,7 +547,8 @@ int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument)
 	argument_list['i'] = ft_printf_di;
 	// argument_list['h'] = ft_printf_hhd;
 	// argument_list['o'] = ft_printf_o;
-	// argument_list['x'] = ft_printf_x;
+	argument_list['x'] = ft_printf_x;
+	argument_list['X'] = ft_printf_X;
 	argument_list['u'] = ft_printf_u;
 	argument_list['U'] = ft_printf_u;
 	argument_list['c'] = ft_printf_c;
@@ -420,13 +560,6 @@ int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument)
 	// printf("Dispatcher initiated\nFlags: %s\tWidth: %d\tPrecision: %d\nArgument: %c\n", flags, width, precision, argument);
 	// printf("dispatcher initiated\n");
 	len = (*argument_list[argument])(insertion, mod);
-	// char (*flag_functions[5])(const char *restrict)
-	// flag_functions[0] = char (*flag_minus)(const char *restrict);
-	// flag_functions[1] = char (*flag_plus)(const char *restrict);
-	// flag_functions[2] = char (*flag_zero)(const char *restrict);
-	// flag_functions[3] = char (*flag_space)(const char *restrict);
-	// flag_functions[4] = char (*flag_hash)(const char *restrict);
-	// flag_functions[5] = '\0';
 	// printf("Len in dispatch: %d\n", len);
 	return (len);
 }
