@@ -12,6 +12,7 @@
 
 #include "libftprintf.h"
 #include <string.h>
+#include <limits.h>
 
 int		test_hhd_basic(void)
 {
@@ -212,6 +213,45 @@ int		test_precision_d_zero_value(void)
 	return (base_printf - my_printf);
 }
 
+int		zeroFlag_plusFlag_minWidth(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[zeroFlag_plusFlag_minWidth]\n\n");
+	my_printf = ft_printf("{%+03d}\n", 12);
+	base_printf = printf("{%+03d}\n", 12);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		octalUppercase_precision_sharpFlag_zeroValue(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[octalUppercase_precision_sharpFlag_zeroValue]\n\n");
+	my_printf = ft_printf("%#.O\n", 0);
+	base_printf = printf("%#.O\n", 0);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_zu_unsign_long_long_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_zu_unsign_long_long_max]\n\n");
+	my_printf = ft_printf("%zu, %zu\n", 0, (unsigned long)ULLONG_MAX);
+	base_printf = printf("%zu, %zu\n", (unsigned long)0, (unsigned long)ULLONG_MAX);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		main(void)
 {
 	// char 	*tmp;
@@ -244,5 +284,8 @@ int		main(void)
 	// printf("Difference: %d\n", basic_unsigned_long_test_for_number());
 	// printf("Difference: %d\n", hexadecimal_long_test_for_number());
 	// printf("Difference: %d\n", test_precision_d_higher_min_width_neg());
-	printf("Difference: %d\n", test_precision_d_zero_value());
+	// printf("Difference: %d\n", test_precision_d_zero_value());
+	// printf("Difference: %d\n", zeroFlag_plusFlag_minWidth());
+	// printf("Difference: %d\n", octalUppercase_precision_sharpFlag_zeroValue());
+	printf("Difference: %d\n", test_zu_unsign_long_long_max());
 }

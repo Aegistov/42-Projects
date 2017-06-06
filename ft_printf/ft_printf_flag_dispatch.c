@@ -31,7 +31,7 @@ intmax_t	ft_printf_cast_u(t_mods *mod, va_list insertion)
 		holder = (char)holder;
 	else if (mod->length == 1)
 		holder = (short int)holder;
-	else if (mod->length == 3)
+	else if (mod->length == 3 || mod->arg == 'O')
 		holder = (unsigned long int)holder;
 	else if (mod->length == 4)
 		holder = (unsigned long long int)holder;
@@ -123,7 +123,9 @@ void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 	{
 		// printf("Width loaded\n");
 		// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
-		width = mod->width - (nbr->len + flag_sign + nbr->neg);
+		// if (nbr->len == 1 && nbr->num_str[0] == '0')
+			width = (nbr->len == 1 && nbr->num_str[0] == '0' && mod->p_active) ? mod->width : mod->width - (nbr->len + flag_sign + nbr->neg);
+			// width = mod->width - (nbr->len + flag_sign + nbr->neg);
 		// printf("Width is: %d\n", width);
 		if (mod->hash)
 			width -= 2;
@@ -131,10 +133,10 @@ void	num_width_pad(t_mods *mod, t_pf_string *nbr)
 			nbr->wpad = ft_strfill(nbr->wpad, '0', width);
 		else
 			nbr->wpad = ft_strfill(nbr->wpad, ' ', width);
-		
-		mod->width = (mod->hash == 1) ?
-		(mod->width - (nbr->len + flag_sign + nbr->neg) - 2) :
-		 (mod->width - (nbr->len + flag_sign + nbr->neg));
+		if (!(nbr->len == 1 && nbr->num_str[0] == '0' && mod->p_active))
+			mod->width = (mod->hash == 1) ?
+			(mod->width - (nbr->len + flag_sign + nbr->neg) - 2) :
+			 (mod->width - (nbr->len + flag_sign + nbr->neg));
 		// printf("wpad: %s\n", nbr->wpad);
 	}
 	else if (mod->width < (unsigned int)nbr->len)
@@ -173,7 +175,9 @@ int		ft_printf_o(va_list insertion, t_mods *mod)
 	int		count;
 
 	pf_string_init(&nbr);
+	// printf("Casting...\n");
 	nbr.arg.mint = ft_printf_cast_u(mod, insertion);
+	// printf("Casted\n");
 	count = 0;
 	if (nbr.arg.mint == 0)
 	{
@@ -283,6 +287,8 @@ int		ft_printf_u(va_list insertion, t_mods *mod)
 		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
 		return (nbr.len + count);
 	}
+	else if (mod->p_active && (nbr.len == 1 && nbr.num_str[0] == '0'))
+		return (mod->width + count);
 	else
 	{
 		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
@@ -308,11 +314,13 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	nbr.len = num_precision_check(mod, &nbr);
 	num_width_pad(mod, &nbr);
 	count = ft_pf_num_print_order(mod, &nbr);
-	if (mod->precision > mod->width)
+	if ((mod->precision > mod->width) || (mod->width == (nbr.len + (unsigned int)count)))
 	{
 		// printf("Case 1\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
 		return (nbr.len + count);
 	}
+	else if (mod->p_active && (nbr.len == 1 && nbr.num_str[0] == '0'))
+		return (mod->width + count);
 	else
 	{
 		// printf("Case 2\tLen: %d\tPrecision: %d\tCount: %dWidth: %d\n", nbr.len, mod->precision, count, mod->width);
@@ -387,6 +395,7 @@ int		ft_printf_flag_dispatch(t_mods *mod, va_list insertion, int argument)
 	argument_list['U'] = ft_printf_u;
 	argument_list['c'] = ft_printf_c;
 	argument_list['s'] = ft_printf_s;
+	argument_list['O'] = ft_printf_o;	
 	// argument_list['f'] = ft_printf_f;
 	// argument_list['e'] = ft_printf_e;
 	// argument_list['g'] = ft_printf_g;

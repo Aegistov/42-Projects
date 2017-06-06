@@ -31,6 +31,7 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 		if (format[index] == '.')
 		{
 			// printf("Index pre: %d\n", index);
+			mod->p_active = 1;
 			index += ft_printf_capture_precision(format, mod, index);
 			// printf("Index post: %d\n", index);
 		}

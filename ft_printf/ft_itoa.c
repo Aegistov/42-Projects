@@ -43,7 +43,7 @@ char			*ft_itoa(intmax_t n)
 	char			*str;
 	intmax_t		size;
 
-	// printf("[ft_itoa] Num: %lu\n", n);
+	// printf("[ft_itoa] Num: %zu\n", n);
 	str = NULL;
 	size = ft_intlen(n) + 1;
 	// printf("[ft_itoa] size:%jd\n", size);

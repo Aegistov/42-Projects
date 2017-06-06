@@ -24,6 +24,7 @@ typedef	struct s_mods
 	unsigned int	space : 1;
 	unsigned int	zero : 1;
 	unsigned int	hash : 1;
+	unsigned int	p_active : 1;
 	unsigned int	width;
 	unsigned int	precision;
 	int 			arg;

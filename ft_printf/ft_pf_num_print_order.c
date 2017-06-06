@@ -56,8 +56,8 @@ int		ft_pf_num_print_order(t_mods *mod, t_pf_string *nbr)
 	count = 0;
 	index = -1;
 	count = ft_pf_num_pre_arg_print(mod, nbr);
-	// if ((nbr->len == 1 && nbr->num_str[0] == '0') && mod->precision == 0)
-	// 	return (count);
+	if ((nbr->len == 1 && nbr->num_str[0] == '0') && mod->p_active)
+		return (count);
 	while (nbr->num_str[++index] != '\0' && index < nbr->len)
 		ft_putchar_fd(nbr->num_str[index], 1);
 	if(mod->left_align && nbr->wpad)
