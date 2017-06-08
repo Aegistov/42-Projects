@@ -252,6 +252,45 @@ int		test_zu_unsign_long_long_max(void)
 	return (base_printf - my_printf);
 }
 
+int		test_hhu_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_hhu_max]\n\n");
+	my_printf = ft_printf("%hhu, %hhu\n", 0, (unsigned char)255);
+	base_printf = printf("%hhu, %hhu\n", (unsigned char)0, (unsigned char)255);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_jd_llong_min(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_jd_llong_min]\n\n");
+	my_printf = ft_printf("%jd\n", (long long)-9223372036854775807);
+	base_printf = printf("%jd\n", (intmax_t)-9223372036854775807);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		basics_150(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[basics_150]\n\n");
+	my_printf = ft_printf("%lld\n", (long long)-9223372036854775807L);
+	base_printf = printf("%lld\n", (long long)-922337203685477580L);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
 int		main(void)
 {
 	// char 	*tmp;
@@ -287,5 +326,9 @@ int		main(void)
 	// printf("Difference: %d\n", test_precision_d_zero_value());
 	// printf("Difference: %d\n", zeroFlag_plusFlag_minWidth());
 	// printf("Difference: %d\n", octalUppercase_precision_sharpFlag_zeroValue());
-	printf("Difference: %d\n", test_zu_unsign_long_long_max());
+	// printf("Difference: %d\n", test_zu_unsign_long_long_max());
+	// printf("Difference: %d\n", test_hhu_max());
+	printf("Difference: %d\n", test_jd_llong_min());
+	printf("Difference: %d\n", basics_150());
+
 }

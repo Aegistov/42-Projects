@@ -41,8 +41,14 @@ SRCS	= 	ft_printf_parse.c \
 			ft_intlen.c \
 			ft_intlen_hex.c \
 			ft_pf_intlen_oct.c \
+			ft_pf_llu_len_base.c \
 			ft_strnew.c \
 			ft_strdup.c \
+			ft_pf_num_toa_dispatch.c \
+			ft_pf_ud_toa.c \
+			ft_pf_ud_len_base.c \
+			ft_pf_d_toa.c \
+			ft_pf_d_len_base.c \
 
 OBJS	= $(SRCS:%.c=%.o)
 

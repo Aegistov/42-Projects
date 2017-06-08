@@ -93,4 +93,20 @@ int		ft_printf_capture_length(const char *restrict format, t_mods *mod, int inde
 int		ft_pf_num_print_order(t_mods *mod, t_pf_string *nbr);
 int		ft_pf_num_sign(t_mods *mod, int sign, char *pad, intmax_t holder);
 
+int		ft_pf_llu_len_base(unsigned long long n, const int base);
+int		ft_pf_hhu_len_base(unsigned char n, const int base);
+
+int		ft_pf_lld_len_base(long long int n, const int base);
+int		ft_pf_hhd_len_base(char n, const int base);
+
+char			*ft_pf_llutoa(uintmax_t n);
+char			*ft_pf_hhutoa(uintmax_t n);
+
+char			*ft_pf_lldtoa(intmax_t n);
+char			*ft_pf_hhdtoa(intmax_t n);
+
+
+char	*ft_pf_d_toa_dispatch(t_mods *mod, uintmax_t nbr);
+char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr);
+
 #endif
