@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-char		*ft_itoc_hex(uintmax_t n, char *str, unsigned int size, unsigned int lcase)
+char		*ft_itoc_hex(uintmax_t n, char *str, unsigned int size, int arg)
 {
 	uintmax_t	num;
 
@@ -24,7 +24,7 @@ char		*ft_itoc_hex(uintmax_t n, char *str, unsigned int size, unsigned int lcase
 			str[size] = ((num % 16) + '0');
 		else
 		{
-			if (lcase)
+			if (arg == 'X')
 				str[size] = ((num % 16) - 10 + 'A');
 			else
 				str[size] = ((num % 16) - 10 + 'a');
@@ -36,7 +36,7 @@ char		*ft_itoc_hex(uintmax_t n, char *str, unsigned int size, unsigned int lcase
 		str[size] = ((num % 16) + '0');
 	else
 	{
-		if (lcase)
+		if (arg == 'X')
 			str[size] = ((num % 16) - 10 + 'A');
 		else
 			str[size] = ((num % 16) - 10 + 'a');
@@ -44,7 +44,7 @@ char		*ft_itoc_hex(uintmax_t n, char *str, unsigned int size, unsigned int lcase
 	return (str);
 }
 
-char		*ft_itoa_hex(uintmax_t n, unsigned int lcase)
+char		*ft_itoa_hex(uintmax_t n, int arg)
 {
 	char			*str;
 	unsigned int	size;
@@ -60,7 +60,7 @@ char		*ft_itoa_hex(uintmax_t n, unsigned int lcase)
 	{
 		if (!(str = (char *)malloc(size)))
 			return (NULL);
-		str = ft_itoc_hex(n, str, size - 1, lcase);
+		str = ft_itoc_hex(n, str, size - 1, arg);
 	}
 	str[size - 1] = '\0';
 	return (str);

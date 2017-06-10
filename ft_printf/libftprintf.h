@@ -78,10 +78,13 @@ char	*ft_strfill(char *str, char c, int len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 int		ft_intlen(intmax_t n);
+int		ft_intlen_base(intmax_t n, int base);
+char	*ft_itoa_base_up(intmax_t n, int base);
 int 	ft_intlen_hex(uintmax_t n);
 int		ft_pf_intlen_oct(uintmax_t n);
 char	*ft_itoa(intmax_t n);
-char	*ft_itoa_hex(uintmax_t n, unsigned int lcase);
+char	*ft_itoa_base(intmax_t n, int base);
+char	*ft_itoa_hex(uintmax_t n, int arg);
 char	*ft_pf_itoa_oct(uintmax_t n);
 char	*ft_strnew(size_t size);
 char	*ft_strdup(char *s1);
@@ -99,14 +102,26 @@ int		ft_pf_hhu_len_base(unsigned char n, const int base);
 int		ft_pf_lld_len_base(long long int n, const int base);
 int		ft_pf_hhd_len_base(char n, const int base);
 
-char			*ft_pf_llutoa(uintmax_t n);
-char			*ft_pf_hhutoa(uintmax_t n);
+char			*ft_pf_llutoa_base(uintmax_t n, int base);
+char			*ft_pf_llutoa_base_up(uintmax_t n, int base);
+char			*ft_pf_hhutoa_base(unsigned char n, int base);
+char			*ft_pf_hhutoa_base_up(unsigned char n, int base);
 
-char			*ft_pf_lldtoa(intmax_t n);
-char			*ft_pf_hhdtoa(intmax_t n);
+char			*ft_pf_lldtoa_base(intmax_t n, int base);
+char			*ft_pf_hhdtoa_base(char n, int base);
 
 
-char	*ft_pf_d_toa_dispatch(t_mods *mod, uintmax_t nbr);
-char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr);
+char	*ft_pf_d_toa_dispatch(t_mods *mod, intmax_t nbr, int base);
+char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr, int base);
+
+int		ft_printf_p(va_list insertion, t_mods *mod);
+
+void		ft_pf_str_init(t_pf_string *str);
+intmax_t	ft_pf_ucast(t_mods *mod, va_list insertion);
+intmax_t	ft_pf_cast(t_mods *mod, va_list insertion);
+void	ft_pf_num_width_pad(t_mods *mod, t_pf_string *nbr);
+void	ft_pf_num_precision_pad(t_mods *mod, t_pf_string *nbr);
+int		ft_pf_num_precision_check(t_mods *mod, t_pf_string *nbr);
+
 
 #endif

@@ -12,84 +12,154 @@
 
 #include "libftprintf.h"
 
-// char	*ft_pf_ulltoc(unsigned long long n, char *s, intmax_t size)
+// static	char	*ft_itoc_up(intmax_t n, char *s, intmax_t size, int base)
 // {
-// 	unsigned long long	num;
+// 	intmax_t	num;
+// 	static char		*hex = "0123456789ABCDEF";
 
 // 	size--;
 // 	num = n;
-// 	// printf("[ft_itoc] num: %llu\n", num);
-// 	// if (n < 0)
-// 	// {
-// 	// 	num *= -1;
-// 	// 	s[0] = '-';
-// 	// }
-// 	// printf("[ft_itoc] num after conversion: %llu\n", num);
-// 	while (num >= 10)
+// 	// printf("[ft_itoc] nbr: %lld\n", n);
+// 	if (n < 0)
 // 	{
-// 		// ft_itoc(num / 10, s, size);
-// 		s[size] = ((num % 10) + '0');
-// 		num /= 10;
+// 		// printf("converting\n");
+// 		// num *= -1;
+// 		s[0] = '-';
+// 	}
+// 	// printf("[ft_itoc] nbr after conv: %lld\n", num);
+// 	while (num >= base || num < -base)
+// 	{
+// 		// ft_itoc(num / base, s, size);
+// 		// printf("[ft_itoc] char: %lld\n", ((num % base) * -1));
+// 		s[size] = hex[(num % base) * (n < 0 ? -1 : 1)];
+// 		// s[size] = ((num % base) * (n < 0 ? -1 : 1) + '0');
+// 		num /= base;
 // 		size--;
 // 	}
-// 	// else
-// 	s[size] = (num + '0');
-// 	// printf("[ft_itoc] str: %s\n", s);
+// 	s[size] = hex[(num % base) * (n < 0 ? -1 : 1)];;
+// 	// printf("[ft_itoc] str: %ss\n", s);
 // 	return (s);
 // }
 
-static	char	*ft_itoc(intmax_t n, char *s, intmax_t size)
-{
-	intmax_t	num;
+// char			*ft_itoa_base_up(intmax_t n, int base)
+// {
+// 	char			*str;
+// 	intmax_t		size;
 
-	size--;
-	num = n;
-	// printf("[ft_itoc] num: %lu\n", num);
-	if (n < 0)
-	{
-		num *= -1;
-		s[0] = '-';
-	}
-	// printf("[ft_itoc] num after conversion: %lu\n", num);
-	while (num >= 10)
-	{
-		// ft_itoc(num / 10, s, size);
-		s[size] = ((num % 10) + '0');
-		num /= 10;
-		size--;
-	}
-	// else
-	s[size] = (num + '0');
-	// printf("[ft_itoc] str: %s\n", s);
-	return (s);
-}
+// 	// printf("[ft_itoa] Num: %zu\n", n);
+// 	str = NULL;
+// 	size = ft_intlen_base(n, base) + 1;
+// 	// printf("[ft_itoa] size:%jd\n", size);
+// 	if (n == 0)
+// 	{
+// 		str = ft_strnew(1);
+// 		str[0] = '0';
+// 	}
+// 	// else if ((unsigned long)n == 18446744073709551574U)
+// 	// {
+// 	// 	str = ft_strdup("18446744073709551574");
+// 	// 	return (str);
+// 	// }
+// 	else
+// 	{
+// 		if (!(str = (char*)malloc(sizeof(char) * size)))
+// 			return (NULL);
+// 		str = ft_itoc_up(n, str, size - 1, base);
+// 	}
+// 	str[size - 1] = '\0';
+// 	// printf("str: %s\n", str);
+// 	return (str);
+// }
 
-char			*ft_itoa(intmax_t n)
+
+// static	char	*ft_itoc(intmax_t n, char *s, intmax_t size, int base)
+// {
+// 	intmax_t	num;
+// 	static char		*hex = "0123456789abcdef";
+
+// 	size--;
+// 	num = n;
+// 	// printf("[ft_itoc] nbr: %lld\n", n);
+// 	if (n < 0)
+// 	{
+// 		// printf("converting\n");
+// 		// num *= -1;
+// 		s[0] = '-';
+// 	}
+// 	// printf("[ft_itoc] nbr after conv: %lld\n", num);
+// 	while (num >= base || num < -base)
+// 	{
+// 		// ft_itoc(num / base, s, size);
+// 		// printf("[ft_itoc] char: %lld\n", ((num % base) * -1));
+// 		s[size] = hex[(num % base) * (n < 0 ? -1 : 1)];
+// 		// s[size] = ((num % base) * (n < 0 ? -1 : 1) + '0');
+// 		num /= base;
+// 		size--;
+// 	}
+// 	s[size] = hex[(num % base) * (n < 0 ? -1 : 1)];
+// 	// printf("[ft_itoc] str: %ss\n", s);
+// 	return (s);
+// }
+
+char			*ft_itoa_base(intmax_t n, int base)
 {
 	char			*str;
 	intmax_t		size;
+	static char		*hex = "0123456789abcdef";
 
 	// printf("[ft_itoa] Num: %zu\n", n);
 	str = NULL;
-	size = ft_intlen(n) + 1;
+	size = ft_intlen_base(n, base);
 	// printf("[ft_itoa] size:%jd\n", size);
 	if (n == 0)
-	{
-		str = ft_strnew(1);
-		str[0] = '0';
-	}
-	// else if ((unsigned long)n == 18446744073709551574U)
-	// {
-	// 	str = ft_strdup("18446744073709551574");
-	// 	return (str);
-	// }
+		return ("0");
 	else
 	{
 		if (!(str = (char*)malloc(sizeof(char) * size)))
 			return (NULL);
-		str = ft_itoc(n, str, size - 1);
+		if (n < 0)
+			str[0] = '-';
+		str[size--] = '\0';
+		// size--;
+		while (n >= base || n < -base)
+		{
+			str[size] = hex[(n % base) * (n < 0 ? -1 : 1)];
+			n /= base;
+			size--;
+		}
+		str[size] = hex[(n % base) * (n < 0 ? -1 : 1)];
 	}
-	str[size - 1] = '\0';
-	// printf("str: %s\n", str);
 	return (str);
 }
+
+char			*ft_itoa_base_up(intmax_t n, int base)
+{
+	char			*str;
+	intmax_t		size;
+	static char		*hex = "0123456789ABCDEF";
+
+	// printf("[ft_itoa] Num: %zu\n", n);
+	str = NULL;
+	size = ft_intlen_base(n, base);
+	// printf("[ft_itoa] size:%jd\n", size);
+	if (n == 0)
+		return ("0");
+	else
+	{
+		if (!(str = (char*)malloc(sizeof(char) * size)))
+			return (NULL);
+		if (n < 0)
+			str[0] = '-';
+		str[size--] = '\0';
+		// size--;
+		while (n >= base || n < -base)
+		{
+			str[size] = hex[(n % base) * (n < 0 ? -1 : 1)];
+			n /= base;
+			size--;
+		}
+		str[size] = hex[(n % base) * (n < 0 ? -1 : 1)];
+	}
+	return (str);
+}
+

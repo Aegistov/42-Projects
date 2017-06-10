@@ -17,7 +17,7 @@ void	ft_pf_num_prefix(t_mods *mod, t_pf_string *nbr, int *count)
 	*count += ft_pf_num_sign(mod, nbr->neg, nbr->wpad, nbr->arg.mint);
 	if (mod->hash)
 	{
-		if (mod->arg == 'x')
+		if (mod->arg == 'x' || mod->arg == 'p')
 			ft_putstr_fd("0x", 1);
 		else if (mod->arg == 'X')
 			ft_putstr_fd("0X", 1);
@@ -39,7 +39,7 @@ int		ft_pf_num_pre_arg_print(t_mods *mod, t_pf_string *nbr)
 	if (nbr->neg == 1 && nbr->wpad && nbr->wpad[0] == ' ')
 	{
 		ft_putchar_fd('-', 1);
-		count++;
+		// count++;
 	}
 	if (nbr->ppad)
 		ft_putstr_fd(nbr->ppad, 1);
@@ -59,7 +59,8 @@ int		ft_pf_num_print_order(t_mods *mod, t_pf_string *nbr)
 	if ((nbr->len == 1 && nbr->num_str[0] == '0') && mod->p_active)
 		return (count);
 	while (nbr->num_str[++index] != '\0' && index < nbr->len)
-		ft_putchar_fd(nbr->num_str[index], 1);
+		if (nbr->num_str[index] != '-')
+			ft_putchar_fd(nbr->num_str[index], 1);
 	if(mod->left_align && nbr->wpad)
 	{
 		if (mod->zero)

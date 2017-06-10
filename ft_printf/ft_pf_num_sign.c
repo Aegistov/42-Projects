@@ -22,17 +22,17 @@ int		ft_pf_num_sign(t_mods *mod, int sign, char *pad, intmax_t holder)
 		ft_putchar_fd('+', 1);
 		count++;
 	}
-	else if (sign == 1 && holder != -2147483648)
+	else if (sign == 1)
 	{
 		if (pad && pad[0] != ' ')
 		{
 			ft_putchar_fd('-', 1);
-			count++;
+			// count++;
 		}
 		else if (!pad)
 		{
 			ft_putchar_fd('-', 1);
-			count++;
+			// count++;
 		}
 	}
 	else if (mod->space && sign == 0  && holder != 4294967295)

@@ -12,30 +12,36 @@
 
 #include "libftprintf.h"
 
-char	*ft_pf_d_toa_dispatch(t_mods *mod, uintmax_t nbr)
+char	*ft_pf_d_toa_dispatch(t_mods *mod, intmax_t nbr, int base)
 {
 	char	*str;
 
 	str = NULL;
-	if (mod->length == ll || mod->length == z)
-		str = ft_pf_lldtoa(nbr);
+	if (mod->length == ll || mod->length == z || mod->length == j)
+		str = ft_pf_lldtoa_base(nbr, base);
 	else if (mod->length == hh)
-		str = ft_pf_hhdtoa(nbr);
+		str = ft_pf_hhdtoa_base(nbr, base);
 	else
-		str = ft_itoa(nbr);
+		str = ft_itoa_base(nbr, base);
 	return (str);
 }
 
-char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr)
+char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr, int base)
 {
 	char	*str;
 
 	str = NULL;
-	if (mod->length == ll || mod->length == z)
-		str = ft_pf_lldtoa(nbr);
+	if (mod->length == ll || mod->length == z || mod->length == j)
+		str = (mod->arg == 'X') ? ft_pf_llutoa_base_up(nbr, base) :
+			ft_pf_llutoa_base(nbr, base);
 	else if (mod->length == hh)
-		str = ft_pf_hhdtoa(nbr);
+	{
+		// printf("TRIGERRED\n");
+		str = (mod->arg == 'X') ? ft_pf_hhutoa_base_up(nbr, base) :
+			ft_pf_hhutoa_base(nbr, base);
+	}
 	else
-		str = ft_itoa(nbr);
+		str = (mod->arg == 'X') ? ft_itoa_base_up(nbr, base) :
+			ft_itoa_base(nbr, base);
 	return (str);
 }

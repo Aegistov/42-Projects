@@ -252,19 +252,6 @@ int		test_zu_unsign_long_long_max(void)
 	return (base_printf - my_printf);
 }
 
-int		test_hhu_max(void)
-{
-	int		my_printf;
-	int		base_printf;
-
-	printf("[test_hhu_max]\n\n");
-	my_printf = ft_printf("%hhu, %hhu\n", 0, (unsigned char)255);
-	base_printf = printf("%hhu, %hhu\n", (unsigned char)0, (unsigned char)255);
-	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
-	printf("\n\n");
-	return (base_printf - my_printf);
-}
-
 int		test_jd_llong_min(void)
 {
 	int		my_printf;
@@ -282,10 +269,142 @@ int		basics_150(void)
 {
 	int		my_printf;
 	int		base_printf;
+	long long int nbr = -9223372036854775807 - 1;
 
 	printf("[basics_150]\n\n");
-	my_printf = ft_printf("%lld\n", (long long)-9223372036854775807L);
-	base_printf = printf("%lld\n", (long long)-922337203685477580L);
+	my_printf = ft_printf("%lld\n", nbr);
+	base_printf = printf("%lld\n", nbr);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_err_zd_up_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_err_zd_up_max]\n\n");
+	my_printf = ft_printf("%zD, %zD\n", 0, (unsigned short)65535);
+	base_printf = printf("%zD, %zD\n", 0, (unsigned short)65535);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_simple(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_simple]\n\n");
+	my_printf = ft_printf("%S\n", L"米");
+	base_printf = printf("%S\n", L"米");
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_ju_unsign_long_long_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_ju_unsign_long_long_max]\n\n");
+	my_printf = ft_printf("%ju, %ju\n", (uintmax_t)0, 18446744073709551615U);
+	base_printf = printf("%ju, %ju\n", (uintmax_t)0, 18446744073709551615U);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_hho_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_hho_max]\n\n");
+	my_printf = ft_printf("%hho, %hho\n", (unsigned char)0, (unsigned char)255);
+	base_printf = printf("%hho, %hho\n", (unsigned char)0, (unsigned char)255);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_hhu_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_hhu_max]\n\n");
+	my_printf = ft_printf("%hhu, %hhu\n", (unsigned char)0, (unsigned char)255);
+	base_printf = printf("%hhu, %hhu\n", (unsigned char)0, (unsigned char)255);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_hhx_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_hhx_max]\n\n");
+	my_printf = ft_printf("%hhx, %hhx\n", (unsigned char)0, (unsigned char)255);
+	base_printf = printf("%hhx, %hhx\n", (unsigned char)0, (unsigned char)255);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_err_hho_up_max(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_err_hho_up_max]\n\n");
+	my_printf = ft_printf("%hhO, %hhO\n", (unsigned char)0, (unsigned char)65535);
+	base_printf = printf("%hhO, %hhO\n", (unsigned char)0, (unsigned char)65535);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_int_pointer(void)
+{
+	int		my_printf;
+	int		base_printf;
+	int 	i;
+
+	printf("[test_int_pointer]\n\n");
+	my_printf = ft_printf("%p\n", &i);
+	base_printf = printf("%p\n", &i);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_zero(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_zero]\n\n");
+	my_printf = ft_printf("%p\n", (void *)0);
+	base_printf = printf("%p\n", (void *)0);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		pZero_minus13MinWidth(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[pZero_minus13MinWidth]\n\n");
+	my_printf = ft_printf("{%-13p}\n", &strlen);
+	base_printf = printf("{%-13p}\n", &strlen);
 	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
 	printf("\n\n");
 	return (base_printf - my_printf);
@@ -328,7 +447,17 @@ int		main(void)
 	// printf("Difference: %d\n", octalUppercase_precision_sharpFlag_zeroValue());
 	// printf("Difference: %d\n", test_zu_unsign_long_long_max());
 	// printf("Difference: %d\n", test_hhu_max());
-	printf("Difference: %d\n", test_jd_llong_min());
-	printf("Difference: %d\n", basics_150());
+	// printf("Difference: %d\n", test_jd_llong_min());
+	// printf("Difference: %d\n", basics_150());
+	// printf("Difference: %d\n", test_err_zd_up_max());
+	// printf("Difference: %d\n", test_simple());
+	// printf("Difference: %d\n", test_ju_unsign_long_long_max());
+	// printf("Difference: %d\n", test_hho_max());
+	// printf("Difference: %d\n", test_hhu_max());
+	// printf("Difference: %d\n", test_hhx_max());
+	// printf("Difference: %d\n", test_err_hho_up_max());
+	// printf("Difference: %d\n", test_int_pointer());
+	// printf("Difference: %d\n", test_zero());
+	printf("Difference: %d\n", pZero_minus13MinWidth());
 
 }

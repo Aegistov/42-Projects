@@ -12,6 +12,32 @@
 
 #include "libftprintf.h"
 
+int		ft_intlen_base(intmax_t n, int base)
+{
+	intmax_t		i;
+
+	i = 0;
+	if (n > 0)
+	{
+		while (n != 0)
+		{
+			n /= base;
+			i++;
+		}
+		return (i);
+	}
+	else
+	{
+		while (n != 0)
+		{
+			n /= base;
+			i++;
+		}
+		return (i + 1);
+	}
+}
+
+
 int		ft_intlen(intmax_t n)
 {
 	intmax_t		i;
