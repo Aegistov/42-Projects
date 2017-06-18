@@ -12,31 +12,13 @@
 
 #include "libftprintf.h"
 
-// char	*ft_pf_llutoc(unsigned long long n, char *s, intmax_t size)
-// {
-// 	unsigned long long	num;
-
-// 	size--;
-// 	num = n;
-// 	while (num >= 10)
-// 	{
-// 		// ft_itoc(num / 10, s, size);
-// 		s[size] = ((num % 10) + '0');
-// 		num /= 10;
-// 		size--;
-// 	}
-// 	s[size] = (num + '0');
-// 	// printf("[ft_itoc] str: %s\n", s);
-// 	return (s);
-// }
-
 char			*ft_pf_llutoa_base(uintmax_t n, int base)
 {
 	char			*str;
 	intmax_t		size;
 	static char		*hex = "0123456789abcdef";
 	// printf("LOWER ACTIVE\n");
-	// printf("[ft_itoa] Num: %zu\n", n);
+	// printf("[ft_itoa] Num: %lu\n", n);
 	str = NULL;
 	size = ft_pf_llu_len_base(n, base);
 	// printf("[ft_itoa] size:%jd\n", size);
@@ -67,7 +49,7 @@ char			*ft_pf_llutoa_base_up(uintmax_t n, int base)
 	intmax_t		size;
 	static char		*hex = "0123456789ABCDEF";
 	// printf("UP ACTIVE\n");
-	// printf("[ft_itoa] Num: %zu\n", n);
+	// printf("[ft_itoa] Num: %lu\n", n);
 	str = NULL;
 	size = ft_pf_llu_len_base(n, base);
 	// printf("[ft_itoa] size:%jd\n", size);
@@ -91,24 +73,6 @@ char			*ft_pf_llutoa_base_up(uintmax_t n, int base)
 	// printf("str: %s\n", str);
 	return (str);
 }
-
-// char	*ft_pf_hhutoc(unsigned char n, char *s, intmax_t size)
-// {
-// 	unsigned char	num;
-
-// 	size--;
-// 	num = n;
-// 	while (num >= 10)
-// 	{
-// 		// ft_itoc(num / 10, s, size);
-// 		s[size] = ((num % 10) + '0');
-// 		num /= 10;
-// 		size--;
-// 	}
-// 	s[size] = (num + '0');
-// 	// printf("[ft_itoc] str: %s\n", s);
-// 	return (s);
-// }
 
 char			*ft_pf_hhutoa_base(unsigned char n, int base)
 {

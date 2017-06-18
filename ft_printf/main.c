@@ -363,7 +363,7 @@ int		test_err_hho_up_max(void)
 	int		base_printf;
 
 	printf("[test_err_hho_up_max]\n\n");
-	my_printf = ft_printf("%hhO, %hhO\n", (unsigned char)0, (unsigned char)65535);
+	my_printf = ft_printf("%hhO, %hhO\n", (unsigned char)0, (short int)65535);
 	base_printf = printf("%hhO, %hhO\n", (unsigned char)0, (unsigned char)65535);
 	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
 	printf("\n\n");
@@ -405,6 +405,58 @@ int		pZero_minus13MinWidth(void)
 	printf("[pZero_minus13MinWidth]\n\n");
 	my_printf = ft_printf("{%-13p}\n", &strlen);
 	base_printf = printf("{%-13p}\n", &strlen);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		basics_047(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[basics_047](@moulitest: %%.x %%.0x)\n\n");
+	my_printf = ft_printf("@moulitest: %.x %.0xEND\n", 0, 0);
+	base_printf = printf("@moulitest: %.x %.0xEND\n", 0, 0);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		basics_190(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[basics_190]('%%lu\\n', '-42')\n\n");
+	my_printf = ft_printf("%lu\n", (unsigned long)"-42");
+	base_printf = printf("%lu\n", (unsigned long)"-42");
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		test_hhd(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[test_hhd]\n\n");
+	my_printf = ft_printf("%hhd - %hhd", SHRT_MAX - 42,  SHRT_MAX - 4200);
+	base_printf = printf("%hhd - %hhd", SHRT_MAX - 42,  SHRT_MAX - 4200);
+	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
+	printf("\n\n");
+	return (base_printf - my_printf);
+}
+
+int		basics_mtest(void)
+{
+	int		my_printf;
+	int		base_printf;
+
+	printf("[basics_mtest]\n\n");
+	my_printf = ft_printf("002147483647-21474836482147483647-2147483648%d\n", 0000042);
+	base_printf = printf("002147483647-21474836482147483647-2147483648%d\n", 0000042);
 	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
 	printf("\n\n");
 	return (base_printf - my_printf);
@@ -458,6 +510,10 @@ int		main(void)
 	// printf("Difference: %d\n", test_err_hho_up_max());
 	// printf("Difference: %d\n", test_int_pointer());
 	// printf("Difference: %d\n", test_zero());
-	printf("Difference: %d\n", pZero_minus13MinWidth());
+	// printf("Difference: %d\n", pZero_minus13MinWidth());
+	// printf("Difference: %d\n", basics_047());
+	// printf("Difference: %d\n", basics_190());
+	// printf("Difference: %d\n", basics_mtest());
+	printf("Difference: %d\n", test_hhd());
 
 }

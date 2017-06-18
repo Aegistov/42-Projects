@@ -12,12 +12,12 @@
 
 #include "libftprintf.h"
 
-int		ft_pf_num_sign(t_mods *mod, int sign, char *pad, intmax_t holder)
+int		ft_pf_num_sign(t_mods *mod, int sign, char *pad)
 {
 	int		count;
 
 	count = 0;
-	if (mod->plus && sign == 0 && holder != 4294967295)
+	if (mod->plus && sign == 0 && (mod->arg == 'd' || mod ->arg == 'i'))
 	{
 		ft_putchar_fd('+', 1);
 		count++;
@@ -35,7 +35,7 @@ int		ft_pf_num_sign(t_mods *mod, int sign, char *pad, intmax_t holder)
 			// count++;
 		}
 	}
-	else if (mod->space && sign == 0  && holder != 4294967295)
+	else if (mod->space && sign == 0 && (mod->arg == 'd' || mod ->arg == 'i'))
 	{
 		ft_putchar_fd(' ', 1);
 		count++;

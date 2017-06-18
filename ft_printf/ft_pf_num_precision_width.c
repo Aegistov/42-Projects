@@ -18,30 +18,25 @@ void	ft_pf_num_width_pad(t_mods *mod, t_pf_string *nbr)
 	int 	width;
 	int		hash;
 
-	hash = (mod->hash) ? 2 : 0;
+	hash = mod->hash;
 	flag_sign = 0;
 	if ((mod->space || mod->plus) && !nbr->neg)
 		flag_sign = 1;
-	// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
+	// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\tHash: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg, hash);
 	if (mod->width > (unsigned int)(nbr->len + flag_sign + hash))
 	{
 		// printf("Width loaded\n");
 		// printf("Width loading...\nWidth: %d\tPrecision: %d\tLen: %d\tFlag Sign: %d\tNeg: %d\n", mod->width, mod->precision, nbr->len, flag_sign, nbr->neg);
-		// if (nbr->len == 1 && nbr->num_str[0] == '0')
-		width = (nbr->len == 1 && nbr->num_str[0] == '0' && mod->p_active) ? mod->width : mod->width - (nbr->len + flag_sign);
+		width = (nbr->len == 1 && nbr->num_str[0] == '0' && mod->p_active) ? mod->width : mod->width - (nbr->len + flag_sign + hash);
 			// width = mod->width - (nbr->len + flag_sign + nbr->neg);
 		// printf("Width is: %d\n", width);
-		if (mod->hash)
-			width -= 2;
 		if (mod->zero && !nbr->ppad)
 			nbr->wpad = ft_strfill(nbr->wpad, '0', width);
 		else
 			nbr->wpad = ft_strfill(nbr->wpad, ' ', width);
 		// printf("1mod->width is: %d\n", mod->width - (nbr->len + flag_sign) - 2);
 		if (!(nbr->len == 1 && nbr->num_str[0] == '0' && mod->p_active))
-			mod->width = (mod->hash == 1 && (mod->width - (nbr->len + flag_sign) - 2) > 0) ?
-			(mod->width - (nbr->len + flag_sign) - 2) :
-			 (mod->width - (nbr->len + flag_sign));
+			mod->width -= (nbr->len + flag_sign + hash);
 		 // printf("mod->width is: %d\n", mod->width - (nbr->len + flag_sign) - 2);
 		// printf("wpad: %s\n", nbr->wpad);
 	}
@@ -52,8 +47,6 @@ void	ft_pf_num_width_pad(t_mods *mod, t_pf_string *nbr)
 
 void	ft_pf_num_precision_pad(t_mods *mod, t_pf_string *nbr)
 {
-	// int		pwidth;
-
 	mod->precision -= ft_strlen(nbr->num_str);
 	if (nbr->neg)
 		mod->precision += 1;
