@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pf_conv_sc.c                                    :+:      :+:    :+:   */
+/*   ft_pf_conv_wchar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmorel <mmorel@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/11 14:17:14 by mmorel            #+#    #+#             */
-/*   Updated: 2017/06/11 14:17:15 by mmorel           ###   ########.fr       */
+/*   Created: 2017/06/18 21:34:51 by mmorel            #+#    #+#             */
+/*   Updated: 2017/06/18 21:34:53 by mmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_printf_c(va_list insertion, t_mods *mod)
+int		ft_printf_C(va_list insertion, t_mods *mod)
 {
 	t_pf_string	chr;
 	int		width;
 
 	width = mod->width;
 	ft_pf_str_init(&chr);
-	chr.arg.ch = va_arg(insertion, int);
-	chr.len = 1;
-	if (!chr.arg.ch)
-		chr.arg.ch = 0;
+	chr.arg.wc = va_arg(insertion, wchar_t);
+	chr.len = ft_pf_putwchar(chr.arg.wc);
 	if (width - chr.len > 0)
 	{
 		mod->width -= chr.len;
@@ -30,25 +28,24 @@ int		ft_printf_c(va_list insertion, t_mods *mod)
 	}
 	if (!mod->left_align && chr.wpad)
 		ft_putstr_fd(chr.wpad, 1);
-	ft_putchar_fd(chr.arg.ch, 1);
+	// ft_putchar_fd(chr.arg.ch, 1);
 	if(mod->left_align && chr.wpad)
 		ft_putstr_fd(chr.wpad, 1);
 	return (chr.len + mod->width);
 }
 
-int		ft_printf_s(va_list insertion, t_mods *mod)
+int 	ft_printf_S(va_list insertion, t_mods *mod)
 {
 	t_pf_string	str;
-	int			index;
 	int			width;
 
 	width = mod->width;
 	ft_pf_str_init(&str);
-	str.arg.str = va_arg(insertion, char *);
-	index = -1;
-	if (!str.arg.str)
-		str.arg.str = "(null)";
-	str.len = ft_pf_str_precision_check(str.arg.str, mod->precision);
+	// printf("Initialized\n");
+	str.arg.wstr = va_arg(insertion, wchar_t *);
+	// printf("Loaded\n");
+	str.len = ft_pf_wstr_len(str.arg.wstr);
+	// str.len = ft_pf_str_precision_check(str.arg.str, mod->precision);
 	if (width - str.len > 0)
 	{
 		mod->width -= str.len;
@@ -56,8 +53,7 @@ int		ft_printf_s(va_list insertion, t_mods *mod)
 	}
 	if (!mod->left_align && str.wpad != NULL)
 		ft_putstr_fd(str.wpad, 1);
-	while (str.arg.str[++index] != '\0' && index < str.len)
-		ft_putchar_fd(str.arg.str[index], 1);
+	ft_pf_putwstr(str.arg.wstr);
 	if(mod->left_align && str.wpad)
 		ft_putstr_fd(str.wpad, 1);
 	return (str.len + mod->width);

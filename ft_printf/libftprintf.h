@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdarg.h>
 # include <stdlib.h>
+# include <wchar.h>
 
 typedef	struct s_mods
 {
@@ -62,6 +63,8 @@ typedef struct 	s_pf_string
 		char			ch;
 		void			*vdpt;
 		intmax_t		mint;
+		wchar_t			wc;
+		wchar_t			*wstr;
 	}				arg;
 }				t_pf_string;
 
@@ -118,6 +121,15 @@ char			*ft_pf_hhdtoa_base(char n, int base);
 char	*ft_pf_d_toa_dispatch(t_mods *mod, intmax_t nbr, int base);
 char	*ft_pf_ud_toa_dispatch(t_mods *mod, uintmax_t nbr, int base);
 
+int		ft_pf_putwchar(wchar_t ch);
+int		ft_pf_put_one_byte(wchar_t ch);
+int		ft_pf_put_two_bytes(wchar_t ch);
+int		ft_pf_put_three_bytes(wchar_t ch);
+int		ft_pf_put_three_bytes(wchar_t ch);
+void	ft_pf_putwstr(wchar_t *str);
+int		ft_pf_wchar_len(wchar_t ch);
+int		ft_pf_wstr_len(wchar_t *str);
+
 int		ft_printf_p(va_list insertion, t_mods *mod);
 int		ft_printf_pct(va_list insertion, t_mods *mod);
 int		ft_printf_di(va_list insertion, t_mods *mod);
@@ -126,6 +138,8 @@ int		ft_printf_o(va_list insertion, t_mods *mod);
 int		ft_printf_xX(va_list insertion, t_mods *mod);
 int		ft_printf_s(va_list insertion, t_mods *mod);
 int		ft_printf_c(va_list insertion, t_mods *mod);
+int		ft_printf_C(va_list insertion, t_mods *mod);
+int 	ft_printf_S(va_list insertion, t_mods *mod);
 
 void		ft_pf_str_init(t_pf_string *str);
 int		ft_pf_str_precision_check(char *str, int precision);

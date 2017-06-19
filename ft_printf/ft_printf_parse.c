@@ -18,6 +18,7 @@ int		ft_printf_parse(const char *restrict format, va_list arguments, int *start)
 	t_mods	*mod;
 
 	index = *start;
+	// printf("Parse Initiated\n");
 	if (!(mod = (t_mods *)ft_memalloc(sizeof(t_mods))))
 		return (-1);
 	if (format[index] == '%')
