@@ -16,10 +16,12 @@ intmax_t	ft_pf_ucast(t_mods *mod, va_list insertion)
 {
 	intmax_t	holder;
 	holder = va_arg(insertion, intmax_t);
-	if (mod->length == hh)
+	// printf("mod->arg: %c\n", mod->arg);
+	if (mod->length == hh && (mod->arg != 'O' && mod->arg != 'U'))
 	{
 		// printf("hh\n");
 		holder = (unsigned char)holder;
+		// printf("%jd\n", holder);
 	}
 	else if (mod->length == 1)
 		holder = (unsigned short int)holder;
@@ -27,6 +29,7 @@ intmax_t	ft_pf_ucast(t_mods *mod, va_list insertion)
 	{
 		// printf("l\n");
 		holder = (unsigned long int)holder;
+		// printf("%jd\n", holder);
 	}
 	else if (mod->length == 4)
 		holder = (unsigned long long int)holder;
@@ -51,7 +54,11 @@ intmax_t	ft_pf_cast(t_mods *mod, va_list insertion)
 	else if (mod->length == 1)
 		holder = (short int)holder;
 	else if (mod->length == 3 || mod->arg == 'D')
+	{
+		// printf("l\n");
 		holder = (long int)holder;
+		// printf("%jd\n", holder);
+	}
 	else if (mod->length == 4)
 		holder = (long long int)holder;
 	else if (mod->length == 6)

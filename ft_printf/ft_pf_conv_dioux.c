@@ -18,6 +18,8 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	int		count;
 
 	ft_pf_str_init(&nbr);
+	if (mod->arg == 'D')
+		mod->length = l;
 	nbr.arg.mint = ft_pf_cast(mod, insertion);
 	count = 0;
 	// printf("[ft_printf_di] nbr: %jd\n", nbr.arg.mint);
@@ -37,6 +39,8 @@ int		ft_printf_u(va_list insertion, t_mods *mod)
 
 	ft_pf_str_init(&nbr);
 	nbr.arg.mint = ft_pf_ucast(mod, insertion);
+	if (mod->arg == 'U')
+		mod->length = l;
 	// printf("[ft_printf_u] nbr: %lu\n", (unsigned long)nbr.arg.mint);
 	count = 0;
 	nbr.num_str = ft_pf_ud_toa_dispatch(mod, nbr.arg.mint, 10);
