@@ -5,7 +5,7 @@ int	ft_printf_capture_flags(const char *restrict format, t_mods *mod, int index)
 	int		count;
 
 	count = 0;
-	// printf("%d\n", index);
+	// printf("cap_flags index: %d\n", index);
 	while (format[index] == '-' || format[index] == '0' || format[index] == '+' || format[index] == '#' || format[index] == ' ')
 	{
 		if (format[index] == '-')
@@ -22,5 +22,6 @@ int	ft_printf_capture_flags(const char *restrict format, t_mods *mod, int index)
 		index += 1;
 		count++;
 	}
+	// printf("[cap_flags] count: %d\n", count);
 	return (count);
 }

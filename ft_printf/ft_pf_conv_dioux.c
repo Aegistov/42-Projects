@@ -17,6 +17,7 @@ int		ft_printf_di(va_list insertion, t_mods *mod)
 	t_pf_string	nbr;
 	int		count;
 
+	// printf("land here\n");
 	ft_pf_str_init(&nbr);
 	if (mod->arg == 'D')
 		mod->length = l;

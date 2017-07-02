@@ -442,8 +442,8 @@ int		test_hhd(void)
 	int		base_printf;
 
 	printf("[test_hhd]\n\n");
-	my_printf = ft_printf("%hhd - %hhd", SHRT_MAX - 42,  SHRT_MAX - 4200);
-	base_printf = printf("%hhd - %hhd", SHRT_MAX - 42,  SHRT_MAX - 4200);
+	my_printf = ft_printf("%d - %d", SHRT_MAX - 42,  SHRT_MAX - 4200);
+	base_printf = printf("%d - %d", SHRT_MAX - 42,  SHRT_MAX - 4200);
 	printf("Return Values:\nft_printf: %d\tprintf: %d\n", my_printf, base_printf);
 	printf("\n\n");
 	return (base_printf - my_printf);

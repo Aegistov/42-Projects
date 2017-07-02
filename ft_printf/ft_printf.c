@@ -37,6 +37,7 @@ int		ft_printf(const char *restrict format, ...)
 				// len += ft_strlen(format);
 				// index++;
 				len += ft_printf_parse(format, arguments, &index);
+				index++;
 			}
 			else
 				return (0);
