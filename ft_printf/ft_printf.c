@@ -30,7 +30,12 @@ int		ft_printf(const char *restrict format, ...)
 	{
 		if (format[index] == '%')
 		{
-			if (format[index + 1] != '\0')
+			if (format[index + 1] == '%')
+			{
+				ft_putchar_fd(format[index], 1);
+				index++;
+			}
+			else if (format[index + 1] != '\0')
 			{
 				// printf("Activated\n");
 				// index++;
